@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domo.Core
 {
-    public class Class1
+    public enum ArtifactType
     {
+        Directory,
+        File,
+        Root
     }
 }

@@ -5,6 +5,15 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domo.Core", "Domo.Core\Domo.Core.csproj", "{FA83D4ED-FA6C-47B6-BF49-B4EB1B5BCB0D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domo.Tests", "Domo.Tests\Domo.Tests.csproj", "{0C2B40ED-AC91-40E7-B7CB-65E46517887A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0E571F78-C117-4020-AA89-0352E1E65E12}"
+	ProjectSection(SolutionItems) = preProject
+		ITERATION.md = ITERATION.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domo.Ui", "Domo.Ui\Domo.Ui.csproj", "{DF94E9FD-2AC8-489C-88B6-58548A4DAE15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +24,14 @@ Global
 		{FA83D4ED-FA6C-47B6-BF49-B4EB1B5BCB0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA83D4ED-FA6C-47B6-BF49-B4EB1B5BCB0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA83D4ED-FA6C-47B6-BF49-B4EB1B5BCB0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C2B40ED-AC91-40E7-B7CB-65E46517887A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C2B40ED-AC91-40E7-B7CB-65E46517887A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C2B40ED-AC91-40E7-B7CB-65E46517887A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C2B40ED-AC91-40E7-B7CB-65E46517887A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF94E9FD-2AC8-489C-88B6-58548A4DAE15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF94E9FD-2AC8-489C-88B6-58548A4DAE15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF94E9FD-2AC8-489C-88B6-58548A4DAE15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF94E9FD-2AC8-489C-88B6-58548A4DAE15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
