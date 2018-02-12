@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ComputationModel>
+  <DefineTemplate Id="AverageAggregator" Description="Average of a metric">
+    <Parameters>
+      <Parameter Type="System.Double" Name="metric"/>
+    </Parameters>
+    
+    <DefineComputation Id="$metric.AVG.HIDDEN.HELPER" OutputType="Como.Blubb.AverageData">
+      <TargetArtifacts>
+        <SelfOrAncestorsOfMetric>$metric</SelfOrAncestorsOfMetric>
+      </TargetArtifacts>
+      <Dependencies>
+        <MetricDependency Name="current" Mode="Self">$metric</MetricDependency>
+        <MetricDependency Name="children" Mode="Children">$metric.AVG.HIDDEN.HELPER</MetricDependency>
+      </Dependencies>
+      <SourceFileTemplate>src/AverageAggregator.template.cs</SourceFileTemplate>
+    </DefineComputation>
+
+    <DefineMetric Id="$metric.AVG">
+      <TargetArtifacts>
+        <SelfOrAncestorsOfMetric>$metric</SelfOrAncestorsOfMetric>
+        <Dependencies>
+          <ComputationDependency Name="current" Mode="Self">$metric.AVG.HIDDEN.HELPER</ComputationDependency>
+        </Dependencies>
+        <SourceFileTemplate>src/AverageComputation.template.cs</SourceFileTemplate>
+      </TargetArtifacts>
+    </DefineMetric>
+  </DefineTemplate>
+
+  <ApplyTemplate TemplateId="AverageAggregator">
+    <Parameters>
+      <Parameter Name="metric">SOTOGRAPH.FileLOC</Parameter>
+    </Parameters>
+  </ApplyTemplate>
+
+</ComputationModel>

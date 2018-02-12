@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BF8E635F-6C75-4A5E-BA2C-711D82D957C9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ClassLibrary1</RootNamespace>
+    <AssemblyName>ClassLibrary1</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="QuickGraph, Version=3.6.61114.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="QuickGraph.Data, Version=3.6.61114.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="QuickGraph.Graphviz, Version=3.6.61114.0, Culture=neutral, PublicKeyToken=f3fb40175eec2af3, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Graphviz.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="QuickGraph.Serialization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QuickGraph.3.6.61119.7\lib\net4\QuickGraph.Serialization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="E00_Addons\AddonAttribute.cs" />
+    <Compile Include="E00_Addons\AddonInterfaceAttribute.cs" />
+    <Compile Include="E00_Addons\IDictionaryExtensions.cs" />
+    <Compile Include="E01_Artifacts\ArtifactType.cs" />
+    <Compile Include="E01_Artifacts\Impl\Artifact.cs" />
+    <Compile Include="E01_Artifacts\Impl\TagExpression.cs" />
+    <Compile Include="E03_Tags\ITag.cs" />
+    <Compile Include="E03_Tags\Tag.cs" />
+    <Compile Include="E04_MetricSources\IComputationValueSet.cs" />
+    <Compile Include="N00_Config\Facade\IMetricModel.cs" />
+    <Compile Include="N00_Config\Facade\Impl\ValueSet.cs" />
+    <Compile Include="N00_Config\Facade\Impl\ValueStorage.cs" />
+    <Compile Include="N00_Config\Facade\Impl\ValueStorageFactory.cs" />
+    <Compile Include="N00_Config\Facade\Impl\ValueSubscription.cs" />
+    <Compile Include="N00_Config\Facade\InputConfiguration.cs" />
+    <Compile Include="N00_Config\Facade\IValueStorage.cs" />
+    <Compile Include="N00_Config\Facade\MetricModelExtensions.cs" />
+    <Compile Include="N00_Config\Facade\IValueStorageFactory.cs" />
+    <Compile Include="N00_Config\Instance\Impl\Dependency.cs" />
+    <Compile Include="N00_Config\ITransaction.cs" />
+    <Compile Include="N00_Config\Meta\IMetaGraphFactory.cs" />
+    <Compile Include="N00_Config\Facade\Impl\MetaBuilder.cs" />
+    <Compile Include="N00_Config\Facade\Impl\MetricModel.cs" />
+    <Compile Include="N00_Config\Instance\NodeExtensions.cs" />
+    <Compile Include="N00_Config\Facade\IValueSubscription.cs" />
+    <Compile Include="N00_Config\Facade\IValueSet.cs" />
+    <Compile Include="N00_Config\Instance\Impl\Graph.cs" />
+    <Compile Include="N00_Config\Instance\Impl\SelfNode.cs" />
+    <Compile Include="N00_Config\Instance\Impl\RawNode.cs" />
+    <Compile Include="N00_Config\Instance\IRawNode.cs" />
+    <Compile Include="N00_Config\Instance\ISelfNode.cs" />
+    <Compile Include="N00_Config\Meta\DeltaMethod.cs" />
+    <Compile Include="N00_Config\Meta\DependencyLocality.cs" />
+    <Compile Include="N00_Config\Instance\IDependency.cs" />
+    <Compile Include="N00_Config\Instance\IGraph.cs" />
+    <Compile Include="N00_Config\Instance\INode.cs" />
+    <Compile Include="N00_Config\Config\IDefinitionMetaModel.cs" />
+    <Compile Include="N00_Config\Meta\IMetaDependency.cs" />
+    <Compile Include="N00_Config\Meta\IMetaGraph.cs" />
+    <Compile Include="N00_Config\Meta\IMetaNode.cs" />
+    <Compile Include="N00_Config\Facade\IMetaBuilder.cs" />
+    <Compile Include="N00_Config\Meta\IMetaRawNode.cs" />
+    <Compile Include="N00_Config\Meta\IMetaSelfNode.cs" />
+    <Compile Include="N00_Config\Instance\IGraphFactory.cs" />
+    <Compile Include="N00_Config\Meta\Impl\ComputationUnit.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComputationUnit.tt</DependentUpon>
+    </Compile>
+    <Compile Include="N00_Config\Meta\Impl\MetaDependency.cs" />
+    <Compile Include="N00_Config\Meta\Impl\MetaGraph.cs" />
+    <Compile Include="N00_Config\Meta\Impl\MetaGraphFactory.cs" />
+    <Compile Include="N00_Config\Meta\Impl\MetaRawNode.cs" />
+    <Compile Include="N00_Config\Meta\Impl\MetaSelfNode.cs" />
+    <Compile Include="N03_Average\AverageData.cs" />
+    <Compile Include="E01_Artifacts\IArtifact.cs" />
+    <Compile Include="N00_Config\Meta\MetaExtensions.cs" />
+    <Compile Include="N00_Config\Config\IComputationDefinitionExtension.cs" />
+    <Compile Include="N00_Config\Config\IMetricDefinitionExtension.cs" />
+    <Compile Include="E01_Artifacts\ImporterType.cs" />
+    <Compile Include="E01_Artifacts\ITagExpression.cs" />
+    <Compile Include="E02_TypedKeys\ITypedKeyDictionary.cs" />
+    <Compile Include="N00_Config\Config\MetricDeclaration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="E02_TypedKeys\TypedKey.cs" />
+    <Compile Include="N00_Config\UsageAttribute.cs" />
+    <Compile Include="T00_Usage\Fixtures.cs" />
+    <Compile Include="T00_Usage\UsageTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="N00_Config\Meta\Impl\ComputationUnit.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ComputationUnit.cs</LastGenOutput>
+    </Content>
+    <Content Include="N00_Config\templates.xml" />
+    <Content Include="N00_Config\computation-model.xml" />
+    <Content Include="Ideen.txt" />
+    <Content Include="N03_Average\definition.xml" />
+    <Content Include="N04_CommentRatio\definition.xml" />
+    <Content Include="N05_SumFileLOC\definition.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common.DataStructures\Common.DataStructures.csproj">
+      <Project>{9b77bfb6-7f88-47ae-8a23-a6d1061713ce}</Project>
+      <Name>Common.DataStructures</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

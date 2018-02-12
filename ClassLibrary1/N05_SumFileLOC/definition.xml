@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ComputationModel>
+  <DefineTemplate Id="SumAggregator" Description="Sum of a metric">
+    <Parameters>
+      <Parameter Type="System.Double" Name="metric"/>
+    </Parameters>
+    <DefineMetric Id="$metric.SUM">
+      <TargetArtifacts>
+        <SelfOrAncestorsOfMetric>$metric</SelfOrAncestorsOfMetric>
+      </TargetArtifacts>
+      <Dependencies>
+        <MetricDependency Name="current" Mode="Self">$metric</MetricDependency>
+        <MetricDependency Name="children" Mode="Children">$metric.SUM</MetricDependency>
+      </Dependencies>
+      <SourceFileTemplate>src/SumAggregator.template.cs</SourceFileTemplate>
+    </DefineMetric>
+  </DefineTemplate>
+
+  <ApplyTemplate TemplateId="SumAggregator">
+    <Parameters>
+      <Parameter Name="metric">SOTOGRAPH.FileLOC</Parameter>
+    </Parameters>
+  </ApplyTemplate>
+  
+</ComputationModel>

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Metrics>
+  <Definitions>
+    <!-- 
+      - alle Definitionen haben einen OutputType vom Typ "Type"
+      - somit ist jede Definition identifizierbar über einen TypedKey, hier MetricId genannt.
+     -->
+    
+    <DeclareRawMetric Id="SOTOGRAPH.FileLOC" Description="Brutto LOC of file" Source="SOTOGRAPH">
+      <!--
+        - DeclareRawMetric hat immer den OutputType "double"
+        
+        - jedes Artefakt hat einen Index im Metrikwert-Array des zugehörigen Artefakttyps
+        - lege für alle Targetartefakte ein Metrikwert-Array an (hier FileLOC)
+        - speichere Wert und wenn nicht vorhanden einen NULL-Hinweis (oder NaN).
+        - dieses Array sollte am besten einen Counter der NULL-Werte pflegen
+      -->
+      <TargetArtifacts>
+        <Target>FILE</Target>
+      </TargetArtifacts>
+    </DeclareRawMetric>
+    
+    
+    
+    
+    
+    
+    
+    <Define Id="MAIN.AverageFileLOC" UseTemplate="AverageAggregator">
+      <ApplyParameters>
+        <Parameter Name="metric">SOTOGRAPH.FileLOC</Parameter>
+      </ApplyParameters>
+    </Define>
+    
+    
+    
+  </Definitions>
+  
+  
+  
+  
+  <Templates>
+    <DefineTemplate Id="AverageAggregator" Description="Average of a metric">
+      <Parameters>
+        <MetricParameter Name="metric" />
+      </Parameters>
+      <TargetArtifacts>
+        <AncestorsOf>$metric</AncestorsOf>
+      </TargetArtifacts>
+      <Dependencies>
+        <!-- enum Mode { Self, Children }, Self ist Default -->
+        <MetricDependency Name="metric" Mode="Children">$metric</MetricDependency>
+      </Dependencies>
+      <TemplateSourceFile>src/AverageAggregator.template.cs</TemplateSourceFile>
+    </DefineTemplate>
+  </Templates>
+</Metrics>

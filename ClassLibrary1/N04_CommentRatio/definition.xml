@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DefineMetric Id="MAIN.FileCommentRatio" Description="Comment LOC per brutto LOC">
+  <!--
+      - DefineMetric hat immer den OutputType "double"
+      -->
+  <TargetArtifacts>
+    <ArtifactType>FILE</ArtifactType>
+  </TargetArtifacts>
+  <SourceFile>src/FileCommentRatio.metric.cs</SourceFile>
+  <!-- oder SourceFile hier ausbreiten... siehe Anmerkung oben -->
+  <Dependencies>
+    <!-- Namen sind Aliase im Quellcode -->
+    <MetricDependency Name="fileLOC">SOTOGRAPH.FileLOC</MetricDependency>
+    <!--
+          - da fileLOC vom "double" ist, hat diese Abhängigkeit auch den Typ "double"
+          - ebenso commentLOC
+        -->
+    <MetricDependency Name="commentLOC">SOTOGRAPH.CommentLOC</MetricDependency>
+  </Dependencies>
+</DefineMetric>

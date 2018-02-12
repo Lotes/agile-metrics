@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Metrics>
+  <Templates>
+    <DefineTemplate Id="AverageAggregator" Description="Average of a metric">
+      <Define Id="$metric-AGGR-AVG">
+        <Parameters>
+          <MetricParameter Name="metric" />
+        </Parameters>
+        <TargetArtifacts>
+          <AncestorsOfMetric>$metric</AncestorsOfMetric>
+        </TargetArtifacts>
+        <Dependencies>
+          <!-- enum Mode { Self, Children }, Self ist Default -->
+          <MetricDependency Name="children" Mode="Children">$metric</MetricDependency>
+        </Dependencies>
+        <SourceFile>src/AverageAggregator.template.cs</SourceFile>
+      </Define>
+    </DefineTemplate>
+  </Templates>
+</Metrics>

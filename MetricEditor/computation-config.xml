@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ComputationModel>
+  <Definitions>
+    <DeclareRaw Id="SOTOGRAPH.FileLOC" Source="SOTOGRAPH" Type="System.Nullable[System.Float]">
+      <TargetArtifactTypes>
+        <ArtifactType>FILE</ArtifactType>
+      </TargetArtifactTypes>
+    </DeclareRaw>
+
+    <DefineComputed Id="TwoTimesFileLOC" Type="System.Nullable[System.Float]" TargetArtifactTypes="FILE">
+      <Comment>Returns double file LOC.</Comment>
+      <TargetArtifactTypes>
+        <ArtifactType>FILE</ArtifactType>
+      </TargetArtifactTypes>
+      <Inputs>
+        <In Name="loc" RefId="SOTOGRAPH.FileLOC" Locality="Self"/>
+        <!--- type will be inferred -->
+      </Inputs>
+      <Variables/> <!--siehe unten-->
+      <SourceCode>
+        <Section Name="Default">return 2 * loc;</Section>
+        <Section Name="Delta">return 2 * loc;</Section>
+      </SourceCode>
+    </DefineComputed>
+
+    <DefineTemplate Id="SumOf">
+      <Parameters>
+        <Parameter Name="metric" Type="MetricEditor.Services...Metric"/>
+      </Parameters>
+      <Variables>
+        <Var Name="sumId" Value="{{metric.Id}}.SUM"/>
+      </Variables>
+      <Definitions>
+        <DefineComputed Id="{{sumId}}" Type="{{metric.Type}}">
+          <TargetArtifactTypes>
+            <AncestorsOf>{{metric.TargetArtifactTypes}}</AncestorsOf>
+            <CopyOf>{{metric.TargetArtifactTypes}}</CopyOf>
+          </TargetArtifactTypes>
+          <Inputs>
+            <Input RefId="{{metric.Id}}" VariableName="current" Locality="Self"/>
+            <Input RefId="{{sumId}}" VariableName="children" Locality="Children"/>
+          </Inputs>
+          <SourceCode>
+            <Section Name="Default">
+              return current.Value + children.Sum();
+            </Section>
+          </SourceCode>
+        </DefineComputed>
+      </Definitions>
+    </DefineTemplate>
+
+    <ApplyTemplate Id="SOTOGRAPH.FileLOC.SUM" TemplateId="SumOf">
+      <Bindings>
+        <Parameter Name="metric" Value="SOTOGRAPH.FileLOC"/>
+      </Bindings>
+    </ApplyTemplate>
+  </Definitions>
+</ComputationModel>
