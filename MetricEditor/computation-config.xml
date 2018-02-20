@@ -49,6 +49,13 @@
       </Definitions>
     </DefineTemplate>
 
+    <ImplicitApplyTemplate Pattern="^(name:[a-z]*)\.SUM$" TemplateId="SumOf">
+      <Bindings>
+        <Parameter Name="metric" Value="{{name}}"/>
+      </Bindings>
+    </ImplicitApplyTemplate>
+
+  
     <ApplyTemplate Id="SOTOGRAPH.FileLOC.SUM" TemplateId="SumOf">
       <Bindings>
         <Parameter Name="metric" Value="SOTOGRAPH.FileLOC"/>
