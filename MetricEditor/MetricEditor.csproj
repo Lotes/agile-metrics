@@ -98,17 +98,6 @@
     <Compile Include="Services\Configuration\Serializable\XVariable.cs" />
     <Compile Include="Services\Configuration\ViewModels\VConfig.cs" />
     <Compile Include="Services\GraphVizClient.cs" />
-    <Compile Include="Services\TypeParser\AST.cs" />
-    <Compile Include="Services\TypeParser\CSharpType.g4.lexer.cs">
-      <DependentUpon>CSharpType.g4</DependentUpon>
-    </Compile>
-    <Compile Include="Services\TypeParser\CSharpType.g4.parser.cs">
-      <DependentUpon>CSharpType.g4</DependentUpon>
-    </Compile>
-    <Compile Include="Services\TypeParser\ICSharpTypeAggregator.cs" />
-    <Compile Include="Services\TypeParser\ThrowExceptionListener.cs" />
-    <Compile Include="Services\TypeParser\TypeUtils.cs" />
-    <Compile Include="Services\TypeParser\Visitors.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -146,10 +135,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <Antlr4 Include="Services\TypeParser\CSharpType.g4">
-      <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>MetricEditor.Services.TypeParser</CustomToolNamespace>
-    </Antlr4>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
