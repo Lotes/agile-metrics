@@ -10,6 +10,12 @@ namespace MetricEditor.Services.Configuration.ViewModels
 {
     public abstract class ErrorTrackingViewModel : ViewModelBase, IErrorProducer
     {
+        public ErrorTrackingViewModel()
+        {
+            Errors = new ObservableCollection<IError>();
+            Children = new ObservableCollection<IErrorProducer>();
+        }
         public ObservableCollection<IError> Errors { get; private set; }
+        public ObservableCollection<IErrorProducer> Children { get; private set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MetricEditor.Services.Configuration.Serializable;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

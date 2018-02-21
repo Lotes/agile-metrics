@@ -13,6 +13,8 @@ namespace MetricEditor.Services.Configuration.ViewModels
         {
             Id = new VTemplateString<VId>(xDef.Id);
             Documentation = new VTemplateString<string>(xDef.Documentation);
+            Children.Add(Id);
+            Children.Add(Documentation);
         }
         public VTemplateString<string> Documentation { get; private set; }
         public VTemplateString<VId> Id { get; private set; }

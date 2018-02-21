@@ -96,7 +96,26 @@
     <Compile Include="Services\Configuration\Serializable\XSourceCodeSection.cs" />
     <Compile Include="Services\Configuration\Serializable\XTemplateBinding.cs" />
     <Compile Include="Services\Configuration\Serializable\XVariable.cs" />
+    <Compile Include="Services\Configuration\ViewModels\ErrorTrackingViewModel.cs" />
+    <Compile Include="Services\Configuration\ViewModels\IError.cs" />
+    <Compile Include="Services\Configuration\ViewModels\IErrorProducer.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VApplyTemplate.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VArtifactTypeSelector.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VATSelectorAncestors.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VATSelectorCopy.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VATSelectorDirect.cs" />
     <Compile Include="Services\Configuration\ViewModels\VConfig.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VDataDefinition.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VDeclareRaw.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VDefineComputed.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VDefineTemplate.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VDefinition.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VId.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VInput.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VParameter.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VSourceCodeSection.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VTemplateString.cs" />
+    <Compile Include="Services\Configuration\ViewModels\VVariable.cs" />
     <Compile Include="Services\GraphVizClient.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
