@@ -9,27 +9,25 @@ using ClassLibrary1.E00_Addons;
 using ClassLibrary1.N00_Config.Facade;
 using ClassLibrary1.N00_Config.Facade.Impl;
 using ClassLibrary1.N00_Config.Instance;
+using ClassLibrary1.N00_Config.Instance.Impl;
 
 namespace ClassLibrary1.N00_Config.Meta.Impl
 {
-    public class MetaGraph : IMetaGraph
+    public class MetaGraph : IMetaGraph, IGraphFactory
     {
         private readonly IMetaGraphFactory metaFactory;
-        private readonly IGraphFactory instanceFactory;
 
         private readonly Dictionary<TypedKey, IMetaNode> nodes = new Dictionary<TypedKey, IMetaNode>();
         private readonly List<IMetaDependency> dependencies = new List<IMetaDependency>();
         private readonly Dictionary<IMetaNode, List<IMetaDependency>> dependenciesBySource = new Dictionary<IMetaNode, List<IMetaDependency>>();
         private readonly Dictionary<IMetaNode, List<IMetaDependency>> dependenciesByTarget = new Dictionary<IMetaNode, List<IMetaDependency>>();
         private readonly Dictionary<ITagExpression, IGraph> instances = new Dictionary<ITagExpression, IGraph>();
-        private readonly Dictionary<IMetaRawNode, Dictionary<IArtifact, IRawNode>> rawNodes = new Dictionary<IMetaRawNode, Dictionary<IArtifact, IRawNode>>();
         private readonly IValueStorageFactory storageFactory;
-        public MetaGraph(IValueStorageFactory storageFactory, IMetaGraphFactory metaFactory, IGraphFactory instanceFactory)
+        public MetaGraph(IValueStorageFactory storageFactory, IMetaGraphFactory metaFactory)
         {
             this.storageFactory = storageFactory;
             this.Storage = storageFactory.CreateStorage();
             this.metaFactory = metaFactory;
-            this.instanceFactory = instanceFactory;
         }
 
         public IEnumerable<IMetaDependency> MetaDependencies { get { return dependencies; } }
@@ -38,7 +36,7 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
 
         public IGraph CreateInstanceFor(ITagExpression tagExpression)
         {
-            return instances.GetOrLazyInsert<ITagExpression, IGraph>(tagExpression, () => instanceFactory.CreateGraph(this, tagExpression, storageFactory));
+            return instances.GetOrLazyInsert<ITagExpression, IGraph>(tagExpression, () => CreateGraph(this, tagExpression, storageFactory));
         }
 
         public IValueStorage Storage { get; }
@@ -134,10 +132,9 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
                     graph.Storage.Free(node.Key);
         }
 
-        public IRawNode AddOrGetRawInstanceNode(IMetaRawNode metaNode, IArtifact artifact)
+        public IGraph CreateGraph(IMetaGraph metaComputationGraph, ITagExpression tagExpression, IValueStorageFactory storageFactory)
         {
-            return rawNodes.GetOrLazyInsert(metaNode, () => new Dictionary<IArtifact, IRawNode>())
-                .GetOrLazyInsert(artifact, () => instanceFactory.CreateRawNode(this, metaNode, artifact));
+            return new Graph(metaComputationGraph, tagExpression, storageFactory);
         }
     }
 }

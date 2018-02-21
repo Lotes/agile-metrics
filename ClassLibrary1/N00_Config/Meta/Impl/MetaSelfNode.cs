@@ -122,26 +122,25 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
         public IReadOnlyDictionary<string, IMetaDependency> Inputs { get { return metaGraph.GetInputsOf(this).ToDictionary(a=>a.Name, a=>a); } }
         public object InvalidValue { get; private set; }
 
-        public object Compute(INode node)
+        public object Compute(IGraph graph, IArtifact artifact)
         {
-            var self = (ISelfNode) node;
-            var parameters = self.Inputs.ToLookup(i => i.Key, i => i.Value)
-                .ToDictionary(g => g.Key.Name, g => Aggregate(g.Key.Locality, g.Key.Source.Key.Type, g.SelectMany(x => x).Select(v => v.Source.Value)));
+            var parameters = this.Inputs.ToDictionary(i => i.Key, i => Aggregate(graph, i.Value.Locality, i.Value.Source.Key.Type, artifact));
             return compute(parameters);
         }
 
-        private object Aggregate(DependencyLocality locality, Type type, IEnumerable<object> set)
+        private object Aggregate(IGraph graph, DependencyLocality locality, Type type, IArtifact artifact)
         {
             if (locality == DependencyLocality.Self)
-                return set.FirstOrDefault();
-            var array = Array.CreateInstance(type, set.Count());
+                return graph.Storage.GetValue(Key, artifact);
+            var values = artifact.Children.Select(a => graph.Storage.GetValue(Key, a)).ToArray();
+            var array = Array.CreateInstance(type, values.Length);
             var index = 0;
-            foreach(var element in set)
+            foreach(var element in values)
                 array.SetValue(element, index++);
             return array;
         }
 
-        public object ComputeDelta(DeltaMethod method, INode node, ITypedKeyDictionary oldValues)
+        public object ComputeDelta(IGraph graph, DeltaMethod method, IArtifact artifact, ITypedKeyDictionary oldValues)
         {
             return null;
         }

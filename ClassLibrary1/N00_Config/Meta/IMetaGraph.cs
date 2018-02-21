@@ -18,7 +18,6 @@ namespace ClassLibrary1.N00_Config.Meta
         void RemoveNode(IMetaNode node);
         IEnumerable<IMetaNode> MetaNodes { get; }
         IMetaNode GetNode(TypedKey metriKey);
-        IRawNode AddOrGetRawInstanceNode(IMetaRawNode node, IArtifact artifact);
 
         IEnumerable<IMetaDependency> MetaDependencies { get; }
         IEnumerable<IMetaDependency> GetInputsOf(IMetaNode node);

@@ -9,8 +9,13 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
 {
     public class ValueSet: IValueSet
     {
+        public class ValueCell
+        {
+            public bool IsValid;
+            public object Value;
+        }
         private readonly ArtifactType type;
-        private readonly List<object> values = new List<object>();
+        private readonly List<ValueCell> values = new List<ValueCell>();
         private readonly List<IArtifact> index2Artifact = new List<IArtifact>();
         private readonly Dictionary<IArtifact, int> artifact2Index = new Dictionary<IArtifact, int>();
 
@@ -21,7 +26,12 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
 
         public object GetValue(IArtifact artifact)
         {
-            if(artifact.ArtifactType != type)
+            return GetCell(artifact)?.Value;
+        }
+
+        private ValueCell GetCell(IArtifact artifact)
+        {
+            if (artifact.ArtifactType != type)
                 throw new InvalidOperationException(); //TODO
             if (!artifact2Index.ContainsKey(artifact))
                 return null;
@@ -37,10 +47,23 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
             {
                 artifact2Index[artifact] = index2Artifact.Count;
                 index2Artifact.Add(artifact);
-                values.Add(null);
+                values.Add(new ValueCell());
             }
             var index = artifact2Index[artifact];
-            values[index] = value;
+            values[index].Value = value;
+            values[index].IsValid = true;
+        }
+
+        public bool IsValid(IArtifact artifact)
+        {
+            return GetCell(artifact)?.IsValid ?? false;
+        }
+
+        public void Invalidate(IArtifact artifact)
+        {
+            var cell = GetCell(artifact);
+            if (cell != null)
+                cell.IsValid = false;
         }
     }
 }

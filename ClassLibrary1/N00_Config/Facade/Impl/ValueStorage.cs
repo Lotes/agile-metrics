@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClassLibrary1.E01_Artifacts;
 using ClassLibrary1.E02_TypedKeys;
+using ClassLibrary1.E00_Addons;
 
 namespace ClassLibrary1.N00_Config.Facade.Impl
 {

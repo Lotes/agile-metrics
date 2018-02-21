@@ -11,15 +11,7 @@ namespace ClassLibrary1.N00_Config.Instance
         IMetaGraph MetaGraph { get; }
         ITagExpression TagExpression { get; }
         IValueStorage Storage { get; }
-
-        IEnumerable<INode> Nodes { get; }
-        INode GetNode(IMetaNode metaNode, IArtifact artifact);
-        INode AddNode(IMetaNode metaNode, IArtifact artifact);
-
-        IEnumerable<IDependency> Dependencies { get; }
-        IEnumerable<IDependency> GetInputsOf(INode node);
-        IEnumerable<IDependency> GetOutputsOf(INode node);
-
+        
         IReadOnlyDictionary<IArtifact, IValueSubscription> SubscribeOn(TypedKey metricKey,
             IEnumerable<IArtifact> artifacts);
     }

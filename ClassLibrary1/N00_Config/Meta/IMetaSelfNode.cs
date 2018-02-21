@@ -5,13 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClassLibrary1.N00_Config.Instance;
+using ClassLibrary1.E01_Artifacts;
 
 namespace ClassLibrary1.N00_Config.Meta
 {
     public interface IMetaSelfNode : IMetaNode
     {
         IReadOnlyDictionary<string, IMetaDependency> Inputs { get; }
-        object Compute(INode node);
-        object ComputeDelta(DeltaMethod method, INode node, ITypedKeyDictionary oldValues);
+        object Compute(IGraph graph, IArtifact artifact);
+        object ComputeDelta(IGraph graph, DeltaMethod method, IArtifact artifact, ITypedKeyDictionary oldValues);
     }
 }
