@@ -24,7 +24,7 @@ namespace ClassLibrary1.N00_Config.Instance.Impl
             this.MetaGraph = metaGraph;
             this.expression = expression;
             foreach (var node in metaGraph.MetaNodes.OfType<IMetaSelfNode>())
-                storage.Allocate(node.Key, node.TargetArtifactTypes);
+                storage.Allocate(node, node.TargetArtifactTypes);
         }
 
         public IMetaGraph MetaGraph { get; }
@@ -48,7 +48,51 @@ namespace ClassLibrary1.N00_Config.Instance.Impl
         public IReadOnlyDictionary<IArtifact, IValueSubscription> SubscribeOn(TypedKey key, IEnumerable<IArtifact> artifacts)
         {
             var metaNode = MetaGraph.GetNode(key);
-            return artifacts.ToDictionary(a => a, a => Storage.SubscribeOn(key, a));
+            return artifacts.ToDictionary(a => a, a => SubscribeOnCell(RequestCells(metaNode, a), metaNode, a));
+        }
+
+        private IValueCell RequestCells(IMetaNode metaNode, IArtifact artifact)
+        {
+            metaNode.ForEachInput((dependency, source) => 
+            {
+                if (dependency.Locality == DependencyLocality.Self)
+                {
+                    RequestCells(source, artifact);
+                }
+                else
+                {
+                    foreach (var child in artifact.Children)
+                        RequestCells(source, child);
+                }
+            });
+            var cell = storage.GetValue(metaNode, artifact);
+            cell.ReferenceCount++;
+            return cell;
+        }
+
+        private void ReleaseCell(IMetaNode metaNode, IArtifact artifact)
+        {
+            metaNode.ForEachInput((dependency, source) =>
+            {
+                if (dependency.Locality == DependencyLocality.Self)
+                {
+                    ReleaseCell(source, artifact);
+                }
+                else
+                {
+                    foreach (var child in artifact.Children)
+                        ReleaseCell(source, child);
+                }
+            });
+            var cell = storage.GetValue(metaNode, artifact);
+            cell.ReferenceCount--;
+            if (cell.ReferenceCount == 0)
+                cell.IsValid = false;
+        }
+
+        private IValueSubscription SubscribeOnCell(IValueCell cell, IMetaNode metaNode, IArtifact artifact)
+        {
+            return new ValueSubscription(cell, () => ReleaseCell(metaNode, artifact));
         }
     }
 }

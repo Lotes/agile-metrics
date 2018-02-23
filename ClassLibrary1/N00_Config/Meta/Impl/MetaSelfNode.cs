@@ -131,8 +131,8 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
         private object Aggregate(IGraph graph, DependencyLocality locality, Type type, IArtifact artifact)
         {
             if (locality == DependencyLocality.Self)
-                return graph.Storage.GetValue(Key, artifact);
-            var values = artifact.Children.Select(a => graph.Storage.GetValue(Key, a)).ToArray();
+                return graph.Storage.GetValue(this, artifact);
+            var values = artifact.Children.Select(a => graph.Storage.GetValue(this, a)).ToArray();
             var array = Array.CreateInstance(type, values.Length);
             var index = 0;
             foreach(var element in values)

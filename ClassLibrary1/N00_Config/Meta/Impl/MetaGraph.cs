@@ -47,7 +47,7 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
                 throw new InvalidOperationException();
             var node = metaFactory.CreateMetaRawNode(key, source, targetArtifactTypes);
             nodes.Add(key, node);
-            Storage.Allocate(key, targetArtifactTypes);
+            Storage.Allocate(node, targetArtifactTypes);
             return node;
         }
         public IMetaSelfNode CreateSelfNode(TypedKey key, ArtifactType[] targetArtifactTypes, IEnumerable<InputConfiguration> inputs, string sourceCode)
@@ -81,7 +81,7 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
             }
 
             foreach (var graph in Instances.Values)
-                graph.Storage.Allocate(key, targetArtifactTypes);
+                graph.Storage.Allocate(node, targetArtifactTypes);
 
             return node;
         }
@@ -126,10 +126,10 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
             dependenciesByTarget.Remove(node);
             nodes.Remove(node.Key);
             if (node is IMetaRawNode)
-                Storage.Free(node.Key);
+                Storage.Free(node);
             else
                 foreach (var graph in Instances.Values)
-                    graph.Storage.Free(node.Key);
+                    graph.Storage.Free(node);
         }
 
         public IGraph CreateGraph(IMetaGraph metaComputationGraph, ITagExpression tagExpression, IValueStorageFactory storageFactory)

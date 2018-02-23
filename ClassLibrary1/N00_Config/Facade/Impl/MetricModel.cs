@@ -36,7 +36,7 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
             var metaNode = metaGraph.GetNode(key);
             if (!(metaNode is IMetaRawNode))
                 throw new InvalidOperationException();
-            metaGraph.Storage.SetValue(key, artifact, value);
+            metaGraph.Storage.SetValue(metaGraph.GetNode(key), artifact, value);
         }
 
         public IReadOnlyDictionary<IArtifact, IValueSubscription> SubscribeOn<TResult>(ITagExpression tagExpression, TypedKey<TResult> key, IEnumerable<IArtifact> artifacts)

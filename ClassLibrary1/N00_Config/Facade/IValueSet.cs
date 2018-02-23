@@ -5,7 +5,7 @@ namespace ClassLibrary1.N00_Config.Facade
 {
     public interface IValueSet
     {
-        IValue GetValue(IArtifact artifact);
-        IValue SetValue(IArtifact artifact, object value);
+        IValueCell GetValue(IArtifact artifact);
+        IValueCell SetValue(IArtifact artifact, object value);
     }
 }

@@ -6,30 +6,30 @@ using System.Threading.Tasks;
 using ClassLibrary1.N00_Config.Instance;
 using ClassLibrary1.E01_Artifacts;
 using ClassLibrary1.E02_TypedKeys;
+using ClassLibrary1.N00_Config.Meta;
 
 namespace ClassLibrary1.N00_Config.Facade.Impl
 {
     public class ValueSubscription: IValueSubscription
     {
         private Action dispose;
-        private IArtifact artifact;
-        private IValueSet set;
-        public ValueSubscription(IArtifact artifact, IValueSet set, Action dispose)
+        private IValueCell cell;
+        
+        public ValueSubscription(IValueCell cell, Action dispose)
         {
-            this.artifact = artifact;
-            this.set = set;
+            this.cell = cell;
             this.dispose = dispose;
         }
+
         public void Dispose()
         {
             dispose?.Invoke();
             dispose = null;
-            set = null;
-            artifact = null;
+            cell = null;
         }
 
 
-        public object Value { get { return set?.GetValue(artifact); } }
+        public object Value { get { return cell?.Value; } }
         public event EventHandler ValueChanged;
         public void NotifyChanged()
         {

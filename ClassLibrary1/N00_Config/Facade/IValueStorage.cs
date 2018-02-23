@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 using ClassLibrary1.E01_Artifacts;
 using ClassLibrary1.E02_TypedKeys;
 using ClassLibrary1.N00_Config.Instance;
+using ClassLibrary1.N00_Config.Meta;
 
 namespace ClassLibrary1.N00_Config.Facade
 {
     public interface IValueStorage
     {
-        IEnumerable<TypedKey> Keys { get; }
-        object GetValue(TypedKey key, IArtifact artifact);
-        void SetValue(TypedKey key, IArtifact artifact, object value);
-        void Allocate(TypedKey key, IEnumerable<ArtifactType> artifactTypes);
-        void Free(TypedKey key);
+        IEnumerable<IMetaNode> Keys { get; }
+        IValueCell GetValue(IMetaNode key, IArtifact artifact);
+        IValueCell SetValue(IMetaNode key, IArtifact artifact, object value);
+        void Allocate(IMetaNode key, IEnumerable<ArtifactType> artifactTypes);
+        void Free(IMetaNode key);
     }
 }
