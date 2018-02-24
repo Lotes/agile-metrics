@@ -60,12 +60,12 @@ namespace ClassLibrary1.T00_Usage
             var sumLOCSubscriptions = metricModel.SubscribeOn(all, sumFileLOC, new[] { root, mainCPP, mainH });
 
             Assert.IsNull(commentRatioSubscriptions[root]);
-            Assert.AreEqual(0.2, commentRatioSubscriptions[mainH]?.Value);
-            Assert.AreEqual(0.4, commentRatioSubscriptions[mainCPP]?.Value);
-            Assert.AreEqual(10100.0, sumLOCSubscriptions[root]?.Value);
+            Assert.AreEqual(0.2, commentRatioSubscriptions[mainH]?.ValueSync);
+            Assert.AreEqual(0.4, commentRatioSubscriptions[mainCPP]?.ValueSync);
+            Assert.AreEqual(10100.0, sumLOCSubscriptions[root]?.ValueSync);
 
             metricModel.SetRawValue(commentLines, mainH, 50.0);
-            Assert.AreEqual(0.5, commentRatioSubscriptions[mainH]?.Value);
+            Assert.AreEqual(0.5, commentRatioSubscriptions[mainH]?.ValueSync);
         }
 
         [TestMethod]

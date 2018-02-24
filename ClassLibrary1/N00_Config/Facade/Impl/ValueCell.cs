@@ -8,8 +8,58 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
 {
     public class ValueCell : IValueCell
     {
-        public bool IsValid { get; set; }
-        public int ReferenceCount { get; set; }
-        public object Value { get; set; }
+        private object value;
+        private ValueCellState state;
+        private int referenceCount;
+        public ValueCell()
+        {
+            state = ValueCellState.Invalid;
+            referenceCount = 0;
+            Value = null;
+        }
+        public int ReferenceCount { get { return referenceCount; } }
+        public ValueCellState State
+        {
+            get { return state; }
+            private set
+            {
+                var old = state;
+                state = value;
+                StateChanged?.Invoke(this, new OldNewPair<ValueCellState>(old, value));
+            }
+        }
+        public object Value
+        {
+            get
+            {
+                switch(State)
+                {
+                    case ValueCellState.Invalid:
+                        State = ValueCellState.Requesting;
+                        return null;
+                    case ValueCellState.Requesting:
+                        return null;
+                    case ValueCellState.Valid:
+                        return value;
+                }
+                throw new InvalidOperationException("Unknown state!");
+            }
+            set
+            {
+                this.value = value;
+                State = ValueCellState.Valid;
+            }
+        }
+        public event EventHandler<OldNewPair<ValueCellState>> StateChanged;
+
+        public void IncReferenceCount()
+        {
+            referenceCount++;
+        }
+
+        public void DecReferenceCount()
+        {
+            referenceCount--;
+        }
     }
 }

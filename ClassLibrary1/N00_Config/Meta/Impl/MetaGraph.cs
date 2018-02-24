@@ -136,5 +136,10 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
         {
             return new Graph(metaComputationGraph, tagExpression, storageFactory);
         }
+
+        public void Compute()
+        {
+            
+        }
     }
 }

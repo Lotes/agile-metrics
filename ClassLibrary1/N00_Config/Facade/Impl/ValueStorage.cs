@@ -24,32 +24,41 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
         public IEnumerable<IMetaNode> Keys { get { return values.Keys; } }
         public IValueCell GetValue(IMetaNode key, IArtifact artifact)
         {
-            CheckIfAllocated(key, artifact);
-            return values[key][artifact.ArtifactType].GetValue(artifact);
+            if(CheckIfAllocated(key, artifact))
+                return values[key][artifact.ArtifactType].GetValue(artifact);
+            return null;
         }
         public IValueCell SetValue(IMetaNode key, IArtifact artifact, object value)
         {
-            CheckIfAllocated(key, artifact);
-            return values[key][artifact.ArtifactType].SetValue(artifact, value);
+            if(CheckIfAllocated(key, artifact))
+                return values[key][artifact.ArtifactType].SetValue(artifact, value);
+            return null;
         }
 
-        private void CheckIfAllocated(IMetaNode key, IArtifact artifact)
+        private bool CheckIfAllocated(IMetaNode key, IArtifact artifact)
         {
             if (!values.ContainsKey(key))
-                throw new InvalidOperationException(); //TODO
+                return false;
             if (!values[key].ContainsKey(artifact.ArtifactType))
-                throw new InvalidOperationException(); //TODO
+                return false;
+            return true;
         }
 
         public void Allocate(IMetaNode key, IEnumerable<ArtifactType> artifactTypes)
         {
-            var byType = artifactTypes.ToDictionary(a => a, factory.CreateValueSet);
+            var byType = artifactTypes.ToDictionary(a => a, a => factory.CreateValueSet(key, a));
             values.Add(key, byType);
         }
 
         public void Free(IMetaNode key)
         {
             values.Remove(key);
+        }
+
+        public void ClearValue(IMetaNode key, IArtifact artifact)
+        {
+            if (values.ContainsKey(key) && values[key].ContainsKey(artifact.ArtifactType))
+                values[key][artifact.ArtifactType].ClearValue(artifact);
         }
     }
 }

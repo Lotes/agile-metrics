@@ -16,6 +16,7 @@ namespace ClassLibrary1.N00_Config.Facade
         IEnumerable<IMetaNode> Keys { get; }
         IValueCell GetValue(IMetaNode key, IArtifact artifact);
         IValueCell SetValue(IMetaNode key, IArtifact artifact, object value);
+        void ClearValue(IMetaNode key, IArtifact artifact);
         void Allocate(IMetaNode key, IEnumerable<ArtifactType> artifactTypes);
         void Free(IMetaNode key);
     }

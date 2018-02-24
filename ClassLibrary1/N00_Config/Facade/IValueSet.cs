@@ -7,5 +7,6 @@ namespace ClassLibrary1.N00_Config.Facade
     {
         IValueCell GetValue(IArtifact artifact);
         IValueCell SetValue(IArtifact artifact, object value);
+        void ClearValue(IArtifact artifact);
     }
 }

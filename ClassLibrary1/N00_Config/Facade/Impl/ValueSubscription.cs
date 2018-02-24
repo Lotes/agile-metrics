@@ -7,33 +7,75 @@ using ClassLibrary1.N00_Config.Instance;
 using ClassLibrary1.E01_Artifacts;
 using ClassLibrary1.E02_TypedKeys;
 using ClassLibrary1.N00_Config.Meta;
+using System.ComponentModel;
 
 namespace ClassLibrary1.N00_Config.Facade.Impl
 {
     public class ValueSubscription: IValueSubscription
     {
         private Action dispose;
+        private Action compute;
         private IValueCell cell;
-        
-        public ValueSubscription(IValueCell cell, Action dispose)
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public object Value
+        {
+            get
+            {
+                return cell.Value;
+            }
+        }
+
+        public ValueCellState State
+        {
+            get
+            {
+                return cell.State;
+            }
+        }
+
+        public object ValueSync
+        {
+            get
+            {
+                if (State != ValueCellState.Valid)
+                    compute();
+                return Value;
+            }
+        }
+
+        public ValueSubscription(IValueCell cell, Action dispose, Action compute)
         {
             this.cell = cell;
             this.dispose = dispose;
+            this.compute = compute;
+            Attach(cell);
         }
 
         public void Dispose()
         {
+            Detach(cell);
             dispose?.Invoke();
             dispose = null;
             cell = null;
         }
 
-
-        public object Value { get { return cell?.Value; } }
-        public event EventHandler ValueChanged;
-        public void NotifyChanged()
+        private void Attach(IValueCell cell)
         {
-            ValueChanged?.Invoke(this, EventArgs.Empty);
+            cell.StateChanged += Cell_StateChanged;
+        }
+
+        private void Detach(IValueCell cell)
+        {
+            cell.StateChanged -= Cell_StateChanged;
+        }
+
+        private void Cell_StateChanged(object sender, OldNewPair<ValueCellState> e)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(State)));
+            if(State == ValueCellState.Valid || State == ValueCellState.Invalid)
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
         }
     }
 }

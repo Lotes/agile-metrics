@@ -25,5 +25,6 @@ namespace ClassLibrary1.N00_Config.Meta
 
         IReadOnlyDictionary<ITagExpression, IGraph> Instances { get; }
         IGraph CreateInstanceFor(ITagExpression tagExpression);
+        void Compute();
     }
 }

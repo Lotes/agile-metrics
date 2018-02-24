@@ -1,11 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace ClassLibrary1.N00_Config.Facade
 {
-    public interface IValueSubscription: IDisposable
+    public interface IValueSubscription: IDisposable, INotifyPropertyChanged
     {
         object Value { get; }
-        event EventHandler ValueChanged;
-        void NotifyChanged();
+        object ValueSync { get; }
+        ValueCellState State { get; }
     }
 }

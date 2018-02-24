@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClassLibrary1.E01_Artifacts;
+using ClassLibrary1.N00_Config.Meta;
 
 namespace ClassLibrary1.N00_Config.Facade.Impl
 {
@@ -14,9 +15,9 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
             return new ValueStorage(this);
         }
 
-        public IValueSet CreateValueSet(ArtifactType type)
+        public IValueSet CreateValueSet(IMetaNode node, ArtifactType type)
         {
-            return new ValueSet(type); 
+            return new ValueSet(node, type); 
         }
     }
 }

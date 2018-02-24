@@ -65,8 +65,9 @@ namespace ClassLibrary1.N00_Config.Instance.Impl
                         RequestCells(source, child);
                 }
             });
+            var storage = metaNode is IMetaRawNode ? MetaGraph.Storage : this.storage;
             var cell = storage.GetValue(metaNode, artifact);
-            cell.ReferenceCount++;
+            cell?.IncReferenceCount();
             return cell;
         }
 
@@ -84,15 +85,16 @@ namespace ClassLibrary1.N00_Config.Instance.Impl
                         ReleaseCell(source, child);
                 }
             });
+            var storage = metaNode is IMetaRawNode ? MetaGraph.Storage : this.storage;
             var cell = storage.GetValue(metaNode, artifact);
-            cell.ReferenceCount--;
+            cell.DecReferenceCount();
             if (cell.ReferenceCount == 0)
-                cell.IsValid = false;
+                storage.ClearValue(metaNode, artifact);
         }
 
         private IValueSubscription SubscribeOnCell(IValueCell cell, IMetaNode metaNode, IArtifact artifact)
         {
-            return new ValueSubscription(cell, () => ReleaseCell(metaNode, artifact));
+            return cell == null ? null : new ValueSubscription(cell, () => ReleaseCell(metaNode, artifact), () => MetaGraph.Compute());
         }
     }
 }

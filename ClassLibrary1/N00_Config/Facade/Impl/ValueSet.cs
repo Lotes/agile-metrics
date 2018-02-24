@@ -40,7 +40,7 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
             {
                 artifact2Index[artifact] = index2Artifact.Count;
                 index2Artifact.Add(artifact);
-                values.Add(cell = new ValueCell(node, artifact));
+                values.Add(cell = new ValueCell());
             }
             else
             {
@@ -48,8 +48,16 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
                 cell = values[index];
             }
             cell.Value = value;
-            cell.IsValid = true;
             return cell;
+        }
+
+        public void ClearValue(IArtifact artifact)
+        {
+            if (artifact.ArtifactType == type && artifact2Index.ContainsKey(artifact))
+            {
+                var index = artifact2Index[artifact];
+                values[index] = null;
+            }
         }
     }
 }
