@@ -20,7 +20,7 @@ namespace ClassLibrary1.E01_Artifacts.Impl
         public string Name { get; }
         public ArtifactType ArtifactType { get; }
         public IEnumerable<IArtifact> Children { get { return children; } }
-        public ObservableCollection<ITag> Tags { get; }
+        public IReadOnlyList<ITag> Tags { get; }
         public IArtifact Parent { get; }
     }
 }

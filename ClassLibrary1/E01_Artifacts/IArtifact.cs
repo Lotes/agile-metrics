@@ -9,7 +9,7 @@ namespace ClassLibrary1.E01_Artifacts
     {
         string Name { get; }
         ArtifactType ArtifactType { get; }   
-        ObservableCollection<ITag> Tags { get; }
+        IReadOnlyList<ITag> Tags { get; }
         IEnumerable<IArtifact> Children { get; }
         IArtifact Parent { get; }
     }

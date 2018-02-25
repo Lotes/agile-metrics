@@ -11,7 +11,6 @@ namespace ClassLibrary1.N00_Config.Instance
         IMetaGraph MetaGraph { get; }
         ITagExpression TagExpression { get; }
         IValueStorage Storage { get; }
-        
         IReadOnlyDictionary<IArtifact, IValueSubscription> SubscribeOn(TypedKey metricKey,
             IEnumerable<IArtifact> artifacts);
     }

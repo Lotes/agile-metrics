@@ -165,9 +165,9 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\ClassLibrary1.csproj">
+    <ProjectReference Include="..\ClassLibrary1\Metrics.csproj">
       <Project>{bf8e635f-6c75-4a5e-ba2c-711d82d957c9}</Project>
-      <Name>ClassLibrary1</Name>
+      <Name>Metrics</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

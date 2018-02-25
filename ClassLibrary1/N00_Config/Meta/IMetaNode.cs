@@ -8,6 +8,5 @@ namespace ClassLibrary1.N00_Config.Meta
     {
         TypedKey Key { get; }
         IEnumerable<ArtifactType> TargetArtifactTypes {get;}
-        object InvalidValue { get; }
     }
 }

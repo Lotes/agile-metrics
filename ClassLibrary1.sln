@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio Express 14 for Windows Desktop
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{BF8E635F-6C75-4A5E-BA2C-711D82D957C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metrics", "ClassLibrary1\Metrics.csproj", "{BF8E635F-6C75-4A5E-BA2C-711D82D957C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.DataStructures", "Common.DataStructures\Common.DataStructures.csproj", "{9B77BFB6-7F88-47AE-8A23-A6D1061713CE}"
 EndProject

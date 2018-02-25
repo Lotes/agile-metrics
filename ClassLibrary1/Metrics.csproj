@@ -7,8 +7,8 @@
     <ProjectGuid>{BF8E635F-6C75-4A5E-BA2C-711D82D957C9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassLibrary1</RootNamespace>
-    <AssemblyName>ClassLibrary1</AssemblyName>
+    <RootNamespace>Metrics</RootNamespace>
+    <AssemblyName>Metrics</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -59,11 +59,14 @@
     <Compile Include="E00_Addons\AddonInterfaceAttribute.cs" />
     <Compile Include="E00_Addons\IDictionaryExtensions.cs" />
     <Compile Include="E01_Artifacts\ArtifactType.cs" />
+    <Compile Include="E01_Artifacts\IArtifactModel.cs" />
     <Compile Include="E01_Artifacts\Impl\Artifact.cs" />
     <Compile Include="E01_Artifacts\Impl\TagExpression.cs" />
+    <Compile Include="E01_Artifacts\MoveArtifactArgs.cs" />
+    <Compile Include="E01_Artifacts\SetterMode.cs" />
+    <Compile Include="E01_Artifacts\TagArtifactArgs.cs" />
     <Compile Include="E03_Tags\ITag.cs" />
     <Compile Include="E03_Tags\Tag.cs" />
-    <Compile Include="E04_MetricSources\IComputationValueSet.cs" />
     <Compile Include="N00_Config\Facade\IMetricModel.cs" />
     <Compile Include="N00_Config\Facade\Impl\ValueCell.cs" />
     <Compile Include="N00_Config\Facade\Impl\ValueSet.cs" />
@@ -75,7 +78,6 @@
     <Compile Include="N00_Config\Facade\IValueStorage.cs" />
     <Compile Include="N00_Config\Facade\MetricModelExtensions.cs" />
     <Compile Include="N00_Config\Facade\IValueStorageFactory.cs" />
-    <None Include="N00_Config\Instance\Impl\Dependency.cs" />
     <Compile Include="N00_Config\Facade\OldNewPair.cs" />
     <Compile Include="N00_Config\Facade\ValueCellState.cs" />
     <Compile Include="N00_Config\Meta\IMetaGraphFactory.cs" />
@@ -84,16 +86,9 @@
     <Compile Include="N00_Config\Facade\IValueSubscription.cs" />
     <Compile Include="N00_Config\Facade\IValueSet.cs" />
     <Compile Include="N00_Config\Instance\Impl\Graph.cs" />
-    <None Include="N00_Config\Instance\Impl\SelfNode.cs" />
-    <None Include="N00_Config\Instance\Impl\RawNode.cs" />
-    <None Include="N00_Config\Instance\IRawNode.cs" />
-    <None Include="N00_Config\Instance\ISelfNode.cs" />
     <Compile Include="N00_Config\Meta\DeltaMethod.cs" />
     <Compile Include="N00_Config\Meta\DependencyLocality.cs" />
-    <None Include="N00_Config\Instance\IDependency.cs" />
     <Compile Include="N00_Config\Instance\IGraph.cs" />
-    <None Include="N00_Config\Instance\INode.cs" />
-    <Compile Include="N00_Config\Config\IDefinitionMetaModel.cs" />
     <Compile Include="N00_Config\Meta\IMetaDependency.cs" />
     <Compile Include="N00_Config\Meta\IMetaGraph.cs" />
     <Compile Include="N00_Config\Meta\IMetaNode.cs" />
@@ -114,8 +109,6 @@
     <Compile Include="N03_Average\AverageData.cs" />
     <Compile Include="E01_Artifacts\IArtifact.cs" />
     <Compile Include="N00_Config\Meta\MetaExtensions.cs" />
-    <Compile Include="N00_Config\Config\IComputationDefinitionExtension.cs" />
-    <Compile Include="N00_Config\Config\IMetricDefinitionExtension.cs" />
     <Compile Include="E01_Artifacts\ImporterType.cs" />
     <Compile Include="E01_Artifacts\ITagExpression.cs" />
     <Compile Include="E02_TypedKeys\ITypedKeyDictionary.cs" />

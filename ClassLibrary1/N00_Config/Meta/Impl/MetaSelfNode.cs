@@ -16,7 +16,6 @@ using System.Reflection;
 using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
-using ClassLibrary1.N00_Config.Config;
 using Common.DataStructures;
 
 namespace ClassLibrary1.N00_Config.Meta.Impl
@@ -32,7 +31,6 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
             this.metaGraph = metaGraph;
             Key = key;
             TargetArtifactTypes = targetArtifactTypes;
-            InvalidValue = null;
             compute = CreateComputeDelegate(inputs, key.Type, sourceCode);
         }
 
@@ -120,8 +118,7 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
         public TypedKey Key { get; private set; }
         public IEnumerable<ArtifactType> TargetArtifactTypes { get; private set; }
         public IReadOnlyDictionary<string, IMetaDependency> Inputs { get { return metaGraph.GetInputsOf(this).ToDictionary(a=>a.Name, a=>a); } }
-        public object InvalidValue { get; private set; }
-
+ 
         public object Compute(IGraph graph, IArtifact artifact)
         {
             var parameters = this.Inputs.ToDictionary(i => i.Key, i => Aggregate(graph, i.Value.Locality, i.Value.Source.Key.Type, artifact));
