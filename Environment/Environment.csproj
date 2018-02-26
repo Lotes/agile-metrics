@@ -41,9 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArtifactType.cs" />
+    <Compile Include="FindingType.cs" />
     <Compile Include="IArtifact.cs" />
     <Compile Include="IArtifactCatalog.cs" />
     <Compile Include="IDictionaryExtensions.cs" />
+    <Compile Include="IFinding.cs" />
+    <Compile Include="IFindingCatalog.cs" />
     <Compile Include="Impl\Artifact.cs" />
     <Compile Include="Impl\ArtifactCatalog.cs" />
     <Compile Include="Impl\Tag.cs" />
