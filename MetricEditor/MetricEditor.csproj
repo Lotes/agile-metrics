@@ -169,6 +169,10 @@
       <Project>{bf8e635f-6c75-4a5e-ba2c-711d82d957c9}</Project>
       <Name>Metrics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Environment\Environment.csproj">
+      <Project>{78732dd2-ef56-4507-ae86-7708eddcb0be}</Project>
+      <Name>Environment</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

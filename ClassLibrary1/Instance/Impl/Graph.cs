@@ -94,7 +94,7 @@ namespace ClassLibrary1.N00_Config.Instance.Impl
 
         private IValueSubscription SubscribeOnCell(IValueCell cell, IMetaNode metaNode, IArtifact artifact)
         {
-            return cell == null ? null : new ValueSubscription(cell, () => ReleaseCell(metaNode, artifact), () => MetaGraph.Compute());
+            return cell == null ? null : new ValueSubscription(cell, () => ReleaseCell(metaNode, artifact), () => { });
         }
     }
 }

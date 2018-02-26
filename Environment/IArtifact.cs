@@ -10,7 +10,7 @@ namespace ClassLibrary1.E01_Artifacts
         string Name { get; }
         ArtifactType ArtifactType { get; }   
         IReadOnlyList<ITag> Tags { get; }
-        IEnumerable<IArtifact> Children { get; }
-        IArtifact Parent { get; }
+        ICollection<IArtifact> Children { get; }
+        IArtifact Parent { get; set; }
     }
 }

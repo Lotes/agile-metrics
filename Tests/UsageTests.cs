@@ -7,8 +7,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using ClassLibrary1.N00_Config.Facade.Impl;
 using ClassLibrary1.N00_Config.Meta.Impl;
-using Common.DataStructures;
 using ClassLibrary1.E03_Tags;
+using ClassLibrary1.N03_Average;
+using Environment.Impl;
 
 namespace ClassLibrary1.T00_Usage
 {
@@ -75,9 +76,10 @@ namespace ClassLibrary1.T00_Usage
             //         Root: Directory
             //          /           \
             //    mainH:File    mainCPP:File
-            var root = new Artifact("Root", "DIRECTORY");
-            var mainH = new Artifact("mainH", "FILE", root);
-            var mainCPP = new Artifact("mainCPP", "FILE", root);
+            var catalog = new ArtifactCatalog();
+            var root = catalog.Add("Root", "DIRECTORY");
+            var mainH = catalog.Add("mainH", "FILE", root);
+            var mainCPP = catalog.Add("mainCPP", "FILE", root);
 
             // Metrics:
             var fileLOC = TypedKey.Create<double>("FileLOC");
@@ -109,7 +111,7 @@ namespace ClassLibrary1.T00_Usage
             metricModel.SetRawValue(commentLines, mainCPP, 4000.0);
 
             var tagFuSi = new Tag("FUSI");
-            mainH.Tags.Add(tagFuSi);
+            catalog.Tag(new[] { mainH }, tagFuSi, Metrics.E01_Artifacts.SetterMode.Set);
             var noHeaders = new TagExpression(a => !a.Tags.Contains(tagFuSi));
             var commentRatioSubscriptions = metricModel.SubscribeOn(noHeaders, commentRatio, new[] { root, mainCPP, mainH });
             var sumLOCSubscriptions = metricModel.SubscribeOn(noHeaders, sumFileLOC, new[] { root, mainCPP, mainH });
@@ -120,7 +122,7 @@ namespace ClassLibrary1.T00_Usage
             Assert.AreEqual(0.4, commentRatioSubscriptions[mainCPP]?.Value);
             Assert.AreEqual(10000.0, sumLOCSubscriptions[root]?.Value);
 
-            mainH.Tags.Remove(tagFuSi);
+            catalog.Tag(new[] { mainH }, tagFuSi, Metrics.E01_Artifacts.SetterMode.Unset);
             Assert.IsNotNull(commentRatioSubscriptions[mainH]);
             Assert.AreEqual(0.2, commentRatioSubscriptions[mainH]?.Value);
             Assert.AreEqual(10100.0, sumLOCSubscriptions[root]?.Value);

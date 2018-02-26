@@ -17,6 +17,7 @@ using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using Common.DataStructures;
+using Metrics.Meta.Impl;
 
 namespace ClassLibrary1.N00_Config.Meta.Impl
 {

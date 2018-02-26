@@ -1,6 +1,4 @@
-﻿using ClassLibrary1.E01_Artifacts;
-using ClassLibrary1.E02_TypedKeys;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using MetricEditor.Services.Configuration.Serializable;
 using System;
 using System.Collections.Generic;
