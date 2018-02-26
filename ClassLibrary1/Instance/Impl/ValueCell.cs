@@ -21,7 +21,7 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
         public ValueCellState State
         {
             get { return state; }
-            private set
+            set
             {
                 var old = state;
                 state = value;
@@ -35,9 +35,6 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
                 switch(State)
                 {
                     case ValueCellState.Invalid:
-                        State = ValueCellState.Requesting;
-                        return null;
-                    case ValueCellState.Requesting:
                         return null;
                     case ValueCellState.Valid:
                         return value;

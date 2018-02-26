@@ -16,6 +16,7 @@ namespace ClassLibrary1.N00_Config.Instance.Impl
     {
         private readonly ITagExpression expression;
         private readonly IValueStorage storage;
+        private readonly List<IValueSubscription> subscriptions = new List<IValueSubscription>();
         
         public Graph(IMetaGraph metaGraph, ITagExpression expression, IValueStorageFactory storageFactory)
         {
@@ -94,7 +95,22 @@ namespace ClassLibrary1.N00_Config.Instance.Impl
 
         private IValueSubscription SubscribeOnCell(IValueCell cell, IMetaNode metaNode, IArtifact artifact)
         {
-            return cell == null ? null : new ValueSubscription(cell, () => ReleaseCell(metaNode, artifact), () => { });
+            if(cell == null)
+            {
+                ReleaseCell(metaNode, artifact);
+                return null;
+            }
+            else
+            {
+                ValueSubscription subscription = null;
+                subscription = new ValueSubscription(cell, () =>
+                {
+                    ReleaseCell(metaNode, artifact);
+                    subscriptions.Remove(subscription);
+                }, () => { });
+                subscriptions.Add(subscription);
+                return subscription;
+            }
         }
     }
 }

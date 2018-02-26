@@ -10,6 +10,7 @@ using ClassLibrary1.N00_Config.Facade;
 using ClassLibrary1.N00_Config.Facade.Impl;
 using ClassLibrary1.N00_Config.Instance;
 using ClassLibrary1.N00_Config.Instance.Impl;
+using Metrics.Instance;
 
 namespace ClassLibrary1.N00_Config.Meta.Impl
 {
@@ -45,7 +46,7 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
         {
             if (GetNode(key) != null)
                 throw new InvalidOperationException();
-            var node = metaFactory.CreateMetaRawNode(key, source, targetArtifactTypes);
+            var node = metaFactory.CreateMetaRawNode(this, key, source, targetArtifactTypes);
             nodes.Add(key, node);
             Storage.Allocate(node, targetArtifactTypes);
             return node;
@@ -135,6 +136,15 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
         public IGraph CreateGraph(IMetaGraph metaComputationGraph, ITagExpression tagExpression, IValueStorageFactory storageFactory)
         {
             return new Graph(metaComputationGraph, tagExpression, storageFactory);
+        }
+
+        public void Invalidate(IMetaNode node, params IArtifact[] artifacts)
+        {
+            if (node is IMetaSelfNode || node == null)
+                foreach (var instance in instances.Values)
+                    GraphInvalidator.Invalidate(this, instance.Storage, node, artifacts);
+            else if (node is IMetaRawNode)
+                GraphInvalidator.Invalidate(this, Storage, node, artifacts);
         }
     }
 }

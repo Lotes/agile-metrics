@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClassLibrary1.N00_Config.Facade
+namespace Metrics.Meta
 {
-    public enum ValueCellState
+    public interface IExecutionQueue
     {
-        Invalid,
-        Valid
+        void Enqueue(Action action);
+        void ExecuteValidation();
     }
 }

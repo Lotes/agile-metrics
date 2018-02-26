@@ -119,7 +119,15 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
         public TypedKey Key { get; private set; }
         public IEnumerable<ArtifactType> TargetArtifactTypes { get; private set; }
         public IReadOnlyDictionary<string, IMetaDependency> Inputs { get { return metaGraph.GetInputsOf(this).ToDictionary(a=>a.Name, a=>a); } }
- 
+
+        public IReadOnlyList<IMetaDependency> Outputs
+        {
+            get
+            {
+                return metaGraph.GetOutputsOf(this).ToList();
+            }
+        }
+
         public object Compute(IGraph graph, IArtifact artifact)
         {
             var parameters = this.Inputs.ToDictionary(i => i.Key, i => Aggregate(graph, i.Value.Locality, i.Value.Source.Key.Type, artifact));

@@ -14,5 +14,10 @@ namespace ClassLibrary1.N00_Config.Meta
             }
         }
 
+        public static void ForEachOutput(this IMetaNode @this, Action<IMetaDependency, IMetaNode> action)
+        {
+            foreach (var input in @this.Outputs)
+                action(input, input.Source);
+        }
     }
 }

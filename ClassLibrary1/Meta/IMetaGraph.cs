@@ -25,5 +25,11 @@ namespace ClassLibrary1.N00_Config.Meta
 
         IReadOnlyDictionary<ITagExpression, IGraph> Instances { get; }
         IGraph CreateInstanceFor(ITagExpression tagExpression);
+        /// <summary>
+        /// If node is NULL, the entire graph is affected
+        /// </summary>
+        /// <param name="node">can be null!</param>
+        /// <param name="artifacts"></param>
+        void Invalidate(IMetaNode node, params IArtifact[] artifacts);
     }
 }

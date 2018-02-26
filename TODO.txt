@@ -1,0 +1,1 @@
+- wenn Subscription hinzugefügt wird, alle neuen Zellen der Validierungsprozedur hinzufügen.

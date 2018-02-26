@@ -42,6 +42,10 @@ namespace Environment.Impl
                 if(old != newParent)
                 {
                     artifact.Parent = newParent;
+                    if (old == null)
+                        roots.Remove(artifact);
+                    if (newParent == null)
+                        roots.Add(artifact);
                     Moved?.Invoke(this, new MoveArtifactArgs(artifact, new ClassLibrary1.N00_Config.Facade.OldNewPair<IArtifact>(old, newParent)));
                 }
             }

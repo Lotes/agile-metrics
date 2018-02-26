@@ -9,7 +9,7 @@ namespace ClassLibrary1.N00_Config.Facade
     public interface IValueCell
     {
         object Value { get; set; }
-        ValueCellState State { get; }
+        ValueCellState State { get; set; }
         int ReferenceCount { get; }
         void IncReferenceCount();
         void DecReferenceCount();

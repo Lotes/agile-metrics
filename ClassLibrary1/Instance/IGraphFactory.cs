@@ -6,6 +6,6 @@ namespace ClassLibrary1.N00_Config.Instance
 {
     public interface IGraphFactory
     {
-        IGraph CreateGraph(IMetaGraph metaComputationGraph, ITagExpression tagExpression, IValueStorageFactory storageFactory);
+        IGraph CreateGraph(IMetaGraph metaGraph, ITagExpression tagExpression, IValueStorageFactory storageFactory);
     }
 }

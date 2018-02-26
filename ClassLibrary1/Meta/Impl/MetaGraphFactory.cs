@@ -22,9 +22,9 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
             return new MetaGraph(storageFactory, this);
         }
 
-        public IMetaRawNode CreateMetaRawNode(TypedKey key, ImporterType source, ArtifactType[] targetArtifactTypes)
+        public IMetaRawNode CreateMetaRawNode(IMetaGraph metaGraph, TypedKey key, ImporterType source, ArtifactType[] targetArtifactTypes)
         {
-            return new MetaRawNode(key, source, targetArtifactTypes);
+            return new MetaRawNode(metaGraph, key, source, targetArtifactTypes);
         }
 
         public IMetaSelfNode CreateMetaSelfNode(IMetaGraph metaGraph, TypedKey key, ArtifactType[] targetArtifactTypes, IEnumerable<InputConfiguration> inputs, string sourceCode)
