@@ -40,22 +40,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Facade\IMetricModel.cs" />
-    <Compile Include="Facade\Impl\ValueCell.cs" />
-    <Compile Include="Facade\Impl\ValueSet.cs" />
-    <Compile Include="Facade\Impl\ValueStorage.cs" />
-    <Compile Include="Facade\Impl\ValueStorageFactory.cs" />
+    <Compile Include="Instance\Impl\ValueCell.cs" />
+    <Compile Include="Instance\Impl\ValueSet.cs" />
+    <Compile Include="Instance\Impl\ValueStorage.cs" />
+    <Compile Include="Instance\Impl\ValueStorageFactory.cs" />
     <Compile Include="Facade\Impl\ValueSubscription.cs" />
     <Compile Include="Facade\InputConfiguration.cs" />
-    <Compile Include="Facade\IValueCell.cs" />
-    <Compile Include="Facade\IValueStorage.cs" />
+    <Compile Include="Instance\IValueCell.cs" />
+    <Compile Include="Instance\IValueStorage.cs" />
     <Compile Include="Facade\MetricModelExtensions.cs" />
-    <Compile Include="Facade\IValueStorageFactory.cs" />
-    <Compile Include="Facade\ValueCellState.cs" />
+    <Compile Include="Instance\IValueStorageFactory.cs" />
+    <Compile Include="Instance\ValueCellState.cs" />
     <Compile Include="Meta\IMetaGraphFactory.cs" />
     <Compile Include="Facade\Impl\MetaBuilder.cs" />
     <Compile Include="Facade\Impl\MetricModel.cs" />
     <Compile Include="Facade\IValueSubscription.cs" />
-    <Compile Include="Facade\IValueSet.cs" />
+    <Compile Include="Instance\IValueSet.cs" />
     <Compile Include="Instance\Impl\Graph.cs" />
     <Compile Include="Meta\DeltaMethod.cs" />
     <Compile Include="Meta\DependencyLocality.cs" />
