@@ -11,6 +11,7 @@ using ClassLibrary1.N00_Config.Facade.Impl;
 using ClassLibrary1.N00_Config.Instance;
 using ClassLibrary1.N00_Config.Instance.Impl;
 using Metrics.Instance;
+using Metrics.Meta;
 
 namespace ClassLibrary1.N00_Config.Meta.Impl
 {
@@ -138,13 +139,13 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
             return new Graph(metaComputationGraph, tagExpression, storageFactory);
         }
 
-        public void Invalidate(IMetaNode node, params IArtifact[] artifacts)
+        public void Invalidate(IMetaNode node, IExecutionQueue queue, params IArtifact[] artifacts)
         {
             if (node is IMetaSelfNode || node == null)
                 foreach (var instance in instances.Values)
-                    GraphInvalidator.Invalidate(this, instance.Storage, node, artifacts);
+                    GraphInvalidator.Invalidate(this, instance, instance.Storage, node, queue, artifacts);
             else if (node is IMetaRawNode)
-                GraphInvalidator.Invalidate(this, Storage, node, artifacts);
+                GraphInvalidator.Invalidate(this, null, Storage, node, queue, artifacts);
         }
     }
 }

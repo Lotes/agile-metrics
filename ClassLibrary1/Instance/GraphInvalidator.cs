@@ -1,6 +1,8 @@
 ﻿using ClassLibrary1.E01_Artifacts;
 using ClassLibrary1.N00_Config.Facade;
+using ClassLibrary1.N00_Config.Instance;
 using ClassLibrary1.N00_Config.Meta;
+using Metrics.Meta;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,18 @@ namespace Metrics.Instance
 {
     public static class GraphInvalidator
     {
-        public static void Invalidate(IMetaGraph metaGraph, IValueStorage storage, IMetaNode affectedNode, params IArtifact[] artifacts)
+        /// <summary>
+        /// Helper function for invalidating values.
+        /// Graph is NULL when the affected node is RAW.
+        /// Affected node is NULL, when all nodes have to be invalidated.
+        /// </summary>
+        /// <param name="metaGraph"></param>
+        /// <param name="graph">can be null</param>
+        /// <param name="storage"></param>
+        /// <param name="affectedNode">can be null</param>
+        /// <param name="queue"></param>
+        /// <param name="artifacts"></param>
+        public static void Invalidate(IMetaGraph metaGraph, IGraph graph, IValueStorage storage, IMetaNode affectedNode, IExecutionQueue queue, params IArtifact[] artifacts)
         {
             var nodes = affectedNode == null 
                 ? metaGraph.MetaNodes.OfType<IMetaSelfNode>().Cast<IMetaNode>() 
@@ -27,9 +40,9 @@ namespace Metrics.Instance
                         node.ForEachOutput((dependency, target) =>
                         {
                             if (dependency.Locality == DependencyLocality.Self)
-                                Invalidate(metaGraph, storage, (IMetaSelfNode)target, artifact);
+                                Invalidate(metaGraph, graph, storage, (IMetaSelfNode)target, queue, artifact);
                             else if (artifact.Parent != null)
-                                Invalidate(metaGraph, storage, (IMetaSelfNode)target, artifact.Parent);
+                                Invalidate(metaGraph, graph, storage, (IMetaSelfNode)target, queue, artifact.Parent);
                         });
                     }
                 }

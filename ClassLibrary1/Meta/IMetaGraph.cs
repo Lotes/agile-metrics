@@ -4,6 +4,7 @@ using ClassLibrary1.E01_Artifacts;
 using ClassLibrary1.E02_TypedKeys;
 using ClassLibrary1.N00_Config.Facade;
 using ClassLibrary1.N00_Config.Instance;
+using Metrics.Meta;
 
 namespace ClassLibrary1.N00_Config.Meta
 {
@@ -30,6 +31,6 @@ namespace ClassLibrary1.N00_Config.Meta
         /// </summary>
         /// <param name="node">can be null!</param>
         /// <param name="artifacts"></param>
-        void Invalidate(IMetaNode node, params IArtifact[] artifacts);
+        void Invalidate(IMetaNode node, IExecutionQueue queue, params IArtifact[] artifacts);
     }
 }

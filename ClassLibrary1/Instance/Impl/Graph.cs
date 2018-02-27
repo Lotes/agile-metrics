@@ -9,6 +9,7 @@ using ClassLibrary1.E02_TypedKeys;
 using ClassLibrary1.N00_Config.Facade;
 using ClassLibrary1.N00_Config.Meta;
 using ClassLibrary1.N00_Config.Facade.Impl;
+using Metrics.Meta;
 
 namespace ClassLibrary1.N00_Config.Instance.Impl
 {
@@ -46,29 +47,31 @@ namespace ClassLibrary1.N00_Config.Instance.Impl
             }
         }
 
-        public IReadOnlyDictionary<IArtifact, IValueSubscription> SubscribeOn(TypedKey key, IEnumerable<IArtifact> artifacts)
+        public IReadOnlyDictionary<IArtifact, IValueSubscription> SubscribeOn(TypedKey key, IEnumerable<IArtifact> artifacts, IExecutionQueue queue)
         {
             var metaNode = MetaGraph.GetNode(key);
-            return artifacts.ToDictionary(a => a, a => SubscribeOnCell(RequestCells(metaNode, a), metaNode, a));
+            return artifacts.ToDictionary(a => a, a => SubscribeOnCell(RequestCells(metaNode, a, queue), metaNode, a));
         }
 
-        private IValueCell RequestCells(IMetaNode metaNode, IArtifact artifact)
+        private IValueCell RequestCells(IMetaNode metaNode, IArtifact artifact, IExecutionQueue queue)
         {
             metaNode.ForEachInput((dependency, source) => 
             {
                 if (dependency.Locality == DependencyLocality.Self)
                 {
-                    RequestCells(source, artifact);
+                    RequestCells(source, artifact, queue);
                 }
                 else
                 {
                     foreach (var child in artifact.Children)
-                        RequestCells(source, child);
+                        RequestCells(source, child, queue);
                 }
             });
             var storage = metaNode is IMetaRawNode ? MetaGraph.Storage : this.storage;
             var cell = storage.GetValue(metaNode, artifact);
             cell?.IncReferenceCount();
+            if (metaNode is IMetaSelfNode)
+                queue.Enqueue(this, (IMetaSelfNode)metaNode, artifact); //depth first search
             return cell;
         }
 
@@ -88,9 +91,12 @@ namespace ClassLibrary1.N00_Config.Instance.Impl
             });
             var storage = metaNode is IMetaRawNode ? MetaGraph.Storage : this.storage;
             var cell = storage.GetValue(metaNode, artifact);
-            cell.DecReferenceCount();
-            if (cell.ReferenceCount == 0)
-                storage.ClearValue(metaNode, artifact);
+            if(cell != null)
+            {
+                cell.DecReferenceCount();
+                if (cell.ReferenceCount == 0)
+                    storage.ClearValue(metaNode, artifact);
+            }
         }
 
         private IValueSubscription SubscribeOnCell(IValueCell cell, IMetaNode metaNode, IArtifact artifact)

@@ -13,7 +13,7 @@ namespace ClassLibrary1.E01_Artifacts.Impl
             Name = name;
             ArtifactType = artifactType;
             Tags = new ObservableCollection<ITag>();
-            parent.Children.Add(this);
+            parent?.Children.Add(this);
             Parent = parent;
         }
 

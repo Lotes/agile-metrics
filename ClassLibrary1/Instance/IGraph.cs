@@ -3,6 +3,7 @@ using ClassLibrary1.E01_Artifacts;
 using ClassLibrary1.E02_TypedKeys;
 using ClassLibrary1.N00_Config.Facade;
 using ClassLibrary1.N00_Config.Meta;
+using Metrics.Meta;
 
 namespace ClassLibrary1.N00_Config.Instance
 {
@@ -12,6 +13,6 @@ namespace ClassLibrary1.N00_Config.Instance
         ITagExpression TagExpression { get; }
         IValueStorage Storage { get; }
         IReadOnlyDictionary<IArtifact, IValueSubscription> SubscribeOn(TypedKey metricKey,
-            IEnumerable<IArtifact> artifacts);
+            IEnumerable<IArtifact> artifacts, IExecutionQueue queue);
     }
 }

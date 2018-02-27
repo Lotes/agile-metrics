@@ -20,6 +20,8 @@ namespace ClassLibrary1.N00_Config.Facade
         IMetaBuilder<TResult> BeginDefinition<TResult>(TypedKey<TResult> key, params ArtifactType[] allowedTypes);
 
         //Raw Values and Subscription
+        void BeginUpdate();
+        void EndUpdate();
         void SetRawValue(TypedKey key, IArtifact artifact, object value);
         IReadOnlyDictionary<IArtifact, IValueSubscription> SubscribeOn<TResult>(ITagExpression tagExpression, TypedKey<TResult> key, IEnumerable<IArtifact> artifacts);
     }

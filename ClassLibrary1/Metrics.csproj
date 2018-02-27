@@ -82,7 +82,6 @@
     <Compile Include="Meta\MetaExtensions.cs" />
     <Compile Include="Meta\Impl\ExecutionQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UsageAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Meta\Impl\ComputationUnit.tt">
