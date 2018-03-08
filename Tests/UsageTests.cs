@@ -139,8 +139,9 @@ namespace ClassLibrary1.T00_Usage
             var root = new Artifact("Root", "DIRECTORY");
             var metricModel = new MetricModel(new MetaGraphFactory(), new ValueStorageFactory());
             metricModel.DeclareRaw(fileLOC, "SOTOGRAPH", "FILE");
-            var count = CreateABCDirectories(root, metricModel, fileLOC, 4);
-            Console.WriteLine("Created "+count+" files!");
+            var count = 350000;
+            var max = count;
+            CreateABCDirectories(root, metricModel, fileLOC, 5, ref max);
 
             // Metric definitions:
             metricModel.BeginDefinition(sumFileLOC, "FILE", "DIRECTORY")
@@ -171,22 +172,20 @@ namespace ClassLibrary1.T00_Usage
             Assert.AreEqual(10.0, avgLOCSubscriptions[root]?.ValueSync);
         }
 
-        private int CreateABCDirectories(Artifact root, IMetricModel mmodel, TypedKey loc, int layers)
+        private void CreateABCDirectories(Artifact root, IMetricModel mmodel, TypedKey loc, int layers, ref int max)
         {
             layers--;
-            var sum = 0;
-            for (var index = 1; index <= 26; index++)
+            for (var index = 1; max > 0 && index <= 26; index++)
             {
                 var next = new Artifact(index.ToString(), layers == 0 ? "FILE" : "DIRECTORY", root);
                 if(layers > 0)
-                    sum += CreateABCDirectories(next, mmodel, loc, layers);
+                    CreateABCDirectories(next, mmodel, loc, layers, ref max);
                 else
                 {
                     mmodel.SetRawValue(loc, next, 10.0);
-                    sum++;
+                    max--;
                 }
             }
-            return sum;
         }
     }
 }

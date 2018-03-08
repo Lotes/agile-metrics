@@ -47,6 +47,7 @@
     <Compile Include="Instance\Impl\ValueStorageFactory.cs" />
     <Compile Include="Facade\Impl\ValueSubscription.cs" />
     <Compile Include="Facade\InputConfiguration.cs" />
+    <Compile Include="Instance\ITagExpressionTree.cs" />
     <Compile Include="Instance\IValueCell.cs" />
     <Compile Include="Instance\IValueStorage.cs" />
     <Compile Include="Facade\MetricModelExtensions.cs" />
