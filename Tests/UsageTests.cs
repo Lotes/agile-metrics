@@ -8,8 +8,8 @@ using System.Linq;
 using ClassLibrary1.N00_Config.Facade.Impl;
 using ClassLibrary1.N00_Config.Meta.Impl;
 using ClassLibrary1.E03_Tags;
-using ClassLibrary1.N03_Average;
 using Environment.Impl;
+using Common.DataStructures;
 
 namespace ClassLibrary1.T00_Usage
 {
@@ -110,22 +110,22 @@ namespace ClassLibrary1.T00_Usage
             metricModel.SetRawValue(commentLines, mainH, 20.0);
             metricModel.SetRawValue(commentLines, mainCPP, 4000.0);
 
-            var tagFuSi = new Tag("FUSI");
-            catalog.Tag(new[] { mainH }, tagFuSi, Metrics.E01_Artifacts.SetterMode.Set);
-            var noHeaders = new TagExpression(a => !a.Tags.Contains(tagFuSi));
+            var tagIsHeader = new Tag("HEADER");
+            catalog.Tag(new[] { mainH }, tagIsHeader, Metrics.E01_Artifacts.SetterMode.Set);
+            var noHeaders = new TagExpression(a => !a.Tags.Contains(tagIsHeader));
             var commentRatioSubscriptions = metricModel.SubscribeOn(noHeaders, commentRatio, new[] { root, mainCPP, mainH });
             var sumLOCSubscriptions = metricModel.SubscribeOn(noHeaders, sumFileLOC, new[] { root, mainCPP, mainH });
 
             Assert.IsNull(commentRatioSubscriptions[root]);
             Assert.IsNotNull(commentRatioSubscriptions[mainH]);
-            Assert.IsNull(commentRatioSubscriptions[mainH].Value);
-            Assert.AreEqual(0.4, commentRatioSubscriptions[mainCPP]?.Value);
-            Assert.AreEqual(10000.0, sumLOCSubscriptions[root]?.Value);
+            Assert.IsNull(commentRatioSubscriptions[mainH].ValueAsync);
+            Assert.AreEqual(0.4, commentRatioSubscriptions[mainCPP]?.ValueSync);
+            Assert.AreEqual(10000.0, sumLOCSubscriptions[root]?.ValueSync);
 
-            catalog.Tag(new[] { mainH }, tagFuSi, Metrics.E01_Artifacts.SetterMode.Unset);
+            catalog.Tag(new[] { mainH }, tagIsHeader, Metrics.E01_Artifacts.SetterMode.Unset);
             Assert.IsNotNull(commentRatioSubscriptions[mainH]);
-            Assert.AreEqual(0.2, commentRatioSubscriptions[mainH]?.Value);
-            Assert.AreEqual(10100.0, sumLOCSubscriptions[root]?.Value);
+            Assert.AreEqual(0.2, commentRatioSubscriptions[mainH]?.ValueSync);
+            Assert.AreEqual(10100.0, sumLOCSubscriptions[root]?.ValueSync);
         }
 
         [TestMethod]
@@ -162,10 +162,13 @@ namespace ClassLibrary1.T00_Usage
             var all = new TagExpression();
             var sumLOCSubscriptions = metricModel.SubscribeOn(all, sumFileLOC, new[] { root });
             var avgLOCSubscriptions = metricModel.SubscribeOn(all, avgFileLOC, new[] { root });
+            var mememe = metricModel.SubscribeOn(all, avgFileLOCHelper, new[] { root });
 
-            Console.WriteLine(avgLOCSubscriptions[root].Value);
-            Assert.AreEqual(10.0*count, sumLOCSubscriptions[root]?.Value);
-            Assert.AreEqual(10.0, avgLOCSubscriptions[root]?.Value);
+            var v = (AverageData)mememe.Values.First().ValueSync;
+            Console.WriteLine(v.Sum+"/"+v.Weight);
+
+            Assert.AreEqual(10.0*count, sumLOCSubscriptions[root]?.ValueSync);
+            Assert.AreEqual(10.0, avgLOCSubscriptions[root]?.ValueSync);
         }
 
         private int CreateABCDirectories(Artifact root, IMetricModel mmodel, TypedKey loc, int layers)

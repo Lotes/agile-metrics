@@ -22,5 +22,10 @@ namespace ClassLibrary1.E01_Artifacts
         {
             return ArtifactType.Create(str);
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

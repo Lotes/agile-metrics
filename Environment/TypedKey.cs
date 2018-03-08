@@ -26,6 +26,11 @@ namespace ClassLibrary1.E02_TypedKeys
             name = name.ToUpper();
             return instances.GetOrLazyInsert(name, () => new TypedKey(name, type));
         }
+
+        public override string ToString()
+        {
+            return Name+": "+Type.Name;
+        }
     }
 
     public class TypedKey<TType> : TypedKey

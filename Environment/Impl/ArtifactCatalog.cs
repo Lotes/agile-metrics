@@ -31,7 +31,7 @@ namespace Environment.Impl
             if (parent == null)
                 roots.Add(result);
             Added?.Invoke(this, result);
-            return parent;
+            return result;
         }
 
         public void Move(IEnumerable<IArtifact> artifacts, IArtifact newParent)

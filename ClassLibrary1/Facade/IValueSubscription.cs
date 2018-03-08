@@ -5,7 +5,7 @@ namespace ClassLibrary1.N00_Config.Facade
 {
     public interface IValueSubscription: IDisposable, INotifyPropertyChanged
     {
-        object Value { get; }
+        object ValueAsync { get; }
         object ValueSync { get; }
         ValueCellState State { get; }
     }

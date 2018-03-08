@@ -11,6 +11,7 @@ namespace Metrics.Meta
 {
     public interface IExecutionQueue
     {
+        bool IsEmpty { get; }
         void Enqueue(IGraph graph, IMetaSelfNode node, IArtifact artifact);
         void Execute();
     }

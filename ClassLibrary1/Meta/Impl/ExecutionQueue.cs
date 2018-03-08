@@ -12,6 +12,7 @@ namespace Metrics.Meta
     public class ExecutionQueue: IExecutionQueue
     {
         private Queue<Tuple<IGraph, IMetaSelfNode, IArtifact>> queue = new Queue<Tuple<IGraph, IMetaSelfNode, IArtifact>>();
+        public bool IsEmpty { get { return !queue.Any(); } }
 
         public void Enqueue(IGraph graph, IMetaSelfNode node, IArtifact artifact)
         {
@@ -22,9 +23,9 @@ namespace Metrics.Meta
         {
             var local = queue;
             queue = new Queue<Tuple<IGraph, IMetaSelfNode, IArtifact>>();
-            while(queue.Any())
+            while(local.Any())
             {
-                var item = queue.Dequeue();
+                var item = local.Dequeue();
                 var graph = item.Item1;
                 var node = item.Item2;
                 var artifact = item.Item3;

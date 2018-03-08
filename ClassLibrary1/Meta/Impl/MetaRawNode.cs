@@ -28,5 +28,10 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
                 return metaGraph.GetOutputsOf(this).ToList();
             }
         }
+
+        public override string ToString()
+        {
+            return "{Raw} "+Key.ToString();
+        }
     }
 }

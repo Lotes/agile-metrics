@@ -25,8 +25,10 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
         private readonly Dictionary<IMetaNode, List<IMetaDependency>> dependenciesByTarget = new Dictionary<IMetaNode, List<IMetaDependency>>();
         private readonly Dictionary<ITagExpression, IGraph> instances = new Dictionary<ITagExpression, IGraph>();
         private readonly IValueStorageFactory storageFactory;
-        public MetaGraph(IValueStorageFactory storageFactory, IMetaGraphFactory metaFactory)
+        private readonly Func<bool> compute;
+        public MetaGraph(IValueStorageFactory storageFactory, IMetaGraphFactory metaFactory, Func<bool> compute)
         {
+            this.compute = compute;
             this.storageFactory = storageFactory;
             this.Storage = storageFactory.CreateStorage();
             this.metaFactory = metaFactory;
@@ -136,16 +138,16 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
 
         public IGraph CreateGraph(IMetaGraph metaComputationGraph, ITagExpression tagExpression, IValueStorageFactory storageFactory)
         {
-            return new Graph(metaComputationGraph, tagExpression, storageFactory);
+            return new Graph(metaComputationGraph, tagExpression, storageFactory, compute);
         }
 
         public void Invalidate(IMetaNode node, IExecutionQueue queue, params IArtifact[] artifacts)
         {
             if (node is IMetaSelfNode || node == null)
                 foreach (var instance in instances.Values)
-                    GraphInvalidator.Invalidate(this, instance, instance.Storage, node, queue, artifacts);
+                    GraphInvalidator.Invalidate(this, instance, node, queue, artifacts);
             else if (node is IMetaRawNode)
-                GraphInvalidator.Invalidate(this, null, Storage, node, queue, artifacts);
+                GraphInvalidator.Invalidate(this, null,  node, queue, artifacts);
         }
     }
 }

@@ -93,7 +93,7 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
                 foreach (var input in variables)
                 {
                     var inputType = input.Value;
-                    if (dictionary.ContainsKey(input.Key))
+                    if (dictionary.ContainsKey(input.Key) && dictionary[input.Key] != null)
                         actuals.Add(dictionary[input.Key]);
                     else
                         actuals.Add(inputType.IsValueType 
@@ -130,16 +130,17 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
 
         public object Compute(IGraph graph, IArtifact artifact)
         {
-            var parameters = this.Inputs.ToDictionary(i => i.Key, i => Aggregate(graph, i.Value.Locality, i.Value.Source.Key.Type, artifact));
+            var parameters = this.Inputs.ToDictionary(i => i.Key, i => Aggregate(graph, i.Value.Locality, i.Value.Source, artifact));
             return compute(parameters);
         }
 
-        private object Aggregate(IGraph graph, DependencyLocality locality, Type type, IArtifact artifact)
+        private object Aggregate(IGraph graph, DependencyLocality locality, IMetaNode node, IArtifact artifact)
         {
+            var storage = node is IMetaRawNode ? metaGraph.Storage : graph.Storage;
             if (locality == DependencyLocality.Self)
-                return graph.Storage.GetValue(this, artifact);
-            var values = artifact.Children.Select(a => graph.Storage.GetValue(this, a)).ToArray();
-            var array = Array.CreateInstance(type, values.Length);
+                return storage.GetValue(node, artifact)?.Value;
+            var values = artifact.Children.Select(a => storage.GetValue(node, a)?.Value).ToArray();
+            var array = Array.CreateInstance(node.Key.Type, values.Length);
             var index = 0;
             foreach(var element in values)
                 array.SetValue(element, index++);
@@ -149,6 +150,11 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
         public object ComputeDelta(IGraph graph, DeltaMethod method, IArtifact artifact, ITypedKeyDictionary oldValues)
         {
             return null;
+        }
+
+        public override string ToString()
+        {
+            return "{Self} "+Key.ToString();
         }
     }
 }

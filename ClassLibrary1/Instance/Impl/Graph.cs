@@ -18,9 +18,10 @@ namespace ClassLibrary1.N00_Config.Instance.Impl
         private readonly ITagExpression expression;
         private readonly IValueStorage storage;
         private readonly List<IValueSubscription> subscriptions = new List<IValueSubscription>();
-        
-        public Graph(IMetaGraph metaGraph, ITagExpression expression, IValueStorageFactory storageFactory)
+        private readonly Func<bool> compute;
+        public Graph(IMetaGraph metaGraph, ITagExpression expression, IValueStorageFactory storageFactory, Func<bool> compute)
         {
+            this.compute = compute;
             this.storage = storageFactory.CreateStorage();
             this.MetaGraph = metaGraph;
             this.MetaGraph = metaGraph;
@@ -70,7 +71,7 @@ namespace ClassLibrary1.N00_Config.Instance.Impl
             var storage = metaNode is IMetaRawNode ? MetaGraph.Storage : this.storage;
             var cell = storage.GetValue(metaNode, artifact);
             cell?.IncReferenceCount();
-            if (metaNode is IMetaSelfNode)
+            if (cell != null && metaNode is IMetaSelfNode && cell.State == ValueCellState.Invalid)
                 queue.Enqueue(this, (IMetaSelfNode)metaNode, artifact); //depth first search
             return cell;
         }
@@ -113,7 +114,10 @@ namespace ClassLibrary1.N00_Config.Instance.Impl
                 {
                     ReleaseCell(metaNode, artifact);
                     subscriptions.Remove(subscription);
-                }, () => { });
+                }, () => 
+                {
+                    while(compute());
+                });
                 subscriptions.Add(subscription);
                 return subscription;
             }

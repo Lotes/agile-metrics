@@ -6,6 +6,7 @@ using ClassLibrary1.E01_Artifacts.Impl;
 using ClassLibrary1.N00_Config.Instance;
 using Metrics.E01_Artifacts;
 using Environment;
+using System;
 
 namespace ClassLibrary1.N00_Config.Facade
 {
@@ -19,9 +20,12 @@ namespace ClassLibrary1.N00_Config.Facade
         void DeclareRaw(TypedKey key, ImporterType source, params ArtifactType[] allowedTypes);
         IMetaBuilder<TResult> BeginDefinition<TResult>(TypedKey<TResult> key, params ArtifactType[] allowedTypes);
 
+        //Computation
+        void Compute();
+        bool RequestsComputation { get; }
+        event EventHandler RequestedComputation;
+
         //Raw Values and Subscription
-        void BeginUpdate();
-        void EndUpdate();
         void SetRawValue(TypedKey key, IArtifact artifact, object value);
         IReadOnlyDictionary<IArtifact, IValueSubscription> SubscribeOn<TResult>(ITagExpression tagExpression, TypedKey<TResult> key, IEnumerable<IArtifact> artifacts);
     }

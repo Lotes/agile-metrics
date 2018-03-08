@@ -22,5 +22,9 @@ namespace ClassLibrary1.E01_Artifacts.Impl
         public ICollection<IArtifact> Children { get { return children; } }
         public IReadOnlyList<ITag> Tags { get; }
         public IArtifact Parent { get; set; }
+        public override string ToString()
+        {
+            return Name + ": " + ArtifactType.Name;
+        }
     }
 }

@@ -17,9 +17,9 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
             return new MetaDependency(source, target, name, locality);
         }
 
-        public IMetaGraph CreateMetaGraph(IValueStorageFactory storageFactory)
+        public IMetaGraph CreateMetaGraph(IValueStorageFactory storageFactory, Func<bool> compute)
         {
-            return new MetaGraph(storageFactory, this);
+            return new MetaGraph(storageFactory, this, compute);
         }
 
         public IMetaRawNode CreateMetaRawNode(IMetaGraph metaGraph, TypedKey key, ImporterType source, ArtifactType[] targetArtifactTypes)

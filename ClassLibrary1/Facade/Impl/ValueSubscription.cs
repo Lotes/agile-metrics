@@ -19,7 +19,7 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public object Value
+        public object ValueAsync
         {
             get
             {
@@ -41,7 +41,7 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
             {
                 if (State != ValueCellState.Valid)
                     compute();
-                return Value;
+                return ValueAsync;
             }
         }
 
@@ -75,7 +75,7 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(State)));
             if(State == ValueCellState.Valid || State == ValueCellState.Invalid)
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ValueAsync)));
         }
     }
 }

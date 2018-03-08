@@ -20,9 +20,15 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
         private IArtifactCatalog artifacts;
         private IFindingCatalog findings;
         private IExecutionQueue queue;
+        private object metricsLock = new object();
+
         public MetricModel(IMetaGraphFactory factory, IValueStorageFactory storageFactory)
         {
-            this.metaGraph = factory.CreateMetaGraph(storageFactory);
+            this.metaGraph = factory.CreateMetaGraph(storageFactory, () =>
+            {
+                Compute();
+                return RequestsComputation;
+            });
             this.storageFactory = storageFactory;
             this.queue = new ExecutionQueue();
         }
@@ -61,7 +67,10 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
 
         public void DeclareRaw(TypedKey key, ImporterType source, params ArtifactType[] allowedTypes)
         {
-            metaGraph.CreateRawNode(key, source, allowedTypes);
+            lock (metricsLock)
+            {
+                metaGraph.CreateRawNode(key, source, allowedTypes);
+            }
         }
 
         public void SetRawValue(TypedKey key, IArtifact artifact, object value)
@@ -71,62 +80,81 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
                 throw new InvalidOperationException();
             metaGraph.Invalidate(metaNode, queue, artifact); //invalidate first, because SetValue makes the cell valid again
             metaGraph.Storage.SetValue(metaGraph.GetNode(key), artifact, value);
+            MayTriggerComputation();
         }
 
         public IReadOnlyDictionary<IArtifact, IValueSubscription> SubscribeOn<TResult>(ITagExpression tagExpression, TypedKey<TResult> key, IEnumerable<IArtifact> artifacts)
         {
             if (!metaGraph.Instances.ContainsKey(tagExpression))
                 metaGraph.CreateInstanceFor(tagExpression);
-            return metaGraph.Instances[tagExpression].SubscribeOn(key, artifacts, queue);
+            var result = metaGraph.Instances[tagExpression].SubscribeOn(key, artifacts, queue);
+            MayTriggerComputation();
+            return result;
         }
 
-        public void BeginUpdate()
+        #region Computation
+        public event EventHandler RequestedComputation;
+        public bool RequestsComputation { get { return !queue.IsEmpty; } }
+        public void Compute()
         {
-
+            lock(metricsLock)
+            {
+                queue.Execute();
+            }
         }
-
-        public void EndUpdate()
+        private void MayTriggerComputation()
         {
-
+            if (!queue.IsEmpty)
+                RequestedComputation?.Invoke(this, EventArgs.Empty);
         }
+        #endregion
 
         #region Events
         private void Artifacts_Tagged(object sender, TagArtifactArgs e)
         {
             metaGraph.Invalidate(null, queue, e.Artifact);
+            MayTriggerComputation();
         }
 
         private void Artifacts_Moved(object sender, MoveArtifactArgs e)
         {
             metaGraph.Invalidate(null, queue, e.Parent.Old);
             metaGraph.Invalidate(null, queue, e.Parent.New);
+            MayTriggerComputation();
         }
 
         private void Artifacts_Added(object sender, IArtifact e)
         {
             metaGraph.Invalidate(null, queue, e);
+            MayTriggerComputation();
         }
 
         private void Findings_ClassificationChanged(object sender, FindingClassificationChangedArgs e)
         {
             metaGraph.Invalidate(null, queue, e.AffectedFinding.AffectedFiles.ToArray());
+            MayTriggerComputation();
         }
 
         private void Findings_Moved(object sender, FindingMovedArgs e)
         {
             metaGraph.Invalidate(null, queue, e.Parent.Old.AffectedFiles.ToArray());
             metaGraph.Invalidate(null, queue, e.AffectedFinding.AffectedFiles.ToArray());
+            MayTriggerComputation();
         }
 
         private void Findings_Removed(object sender, IFinding e)
         {
             if(e.Parent != null)
+            {
                 metaGraph.Invalidate(null, queue, e.Parent.AffectedFiles.ToArray());
+                MayTriggerComputation();
+            }
         }
 
         private void Findings_Added(object sender, IFinding e)
         {
             metaGraph.Invalidate(null, queue, e.AffectedFiles.ToArray());
+            MayTriggerComputation();
         }
         #endregion
     }

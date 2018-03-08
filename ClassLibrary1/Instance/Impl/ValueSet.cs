@@ -24,9 +24,13 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
         public IValueCell GetValue(IArtifact artifact)
         {
             if (artifact.ArtifactType != type)
-                throw new InvalidOperationException(); //TODO
+                throw new InvalidOperationException();
             if (!artifact2Index.ContainsKey(artifact))
-                return null;
+            {
+                artifact2Index[artifact] = index2Artifact.Count;
+                index2Artifact.Add(artifact);
+                values.Add(new ValueCell());
+            }
             var index = artifact2Index[artifact];
             return values[index];
         }

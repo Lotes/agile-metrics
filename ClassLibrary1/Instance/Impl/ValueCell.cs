@@ -15,7 +15,7 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
         {
             state = ValueCellState.Invalid;
             referenceCount = 0;
-            Value = null;
+            value = null;
         }
         public int ReferenceCount { get { return referenceCount; } }
         public ValueCellState State
