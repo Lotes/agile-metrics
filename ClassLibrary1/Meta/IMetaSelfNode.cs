@@ -13,6 +13,5 @@ namespace ClassLibrary1.N00_Config.Meta
     {
         IReadOnlyDictionary<string, IMetaDependency> Inputs { get; }
         object Compute(IGraph graph, IArtifact artifact);
-        object ComputeDelta(IGraph graph, DeltaMethod method, IArtifact artifact, ITypedKeyDictionary oldValues);
     }
 }

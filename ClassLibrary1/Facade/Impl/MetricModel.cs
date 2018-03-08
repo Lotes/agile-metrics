@@ -16,7 +16,6 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
     public class MetricModel : IMetricModel
     {
         private readonly IMetaGraph metaGraph;
-        private readonly IValueStorageFactory storageFactory;
         private IArtifactCatalog artifacts;
         private IFindingCatalog findings;
         private IExecutionQueue queue;
@@ -29,7 +28,6 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
                 Compute();
                 return RequestsComputation;
             });
-            this.storageFactory = storageFactory;
             this.queue = new ExecutionQueue();
         }
 

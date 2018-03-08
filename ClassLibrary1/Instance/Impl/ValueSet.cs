@@ -15,8 +15,10 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
         private readonly List<IArtifact> index2Artifact = new List<IArtifact>();
         private readonly Dictionary<IArtifact, int> artifact2Index = new Dictionary<IArtifact, int>();
         private readonly IMetaNode node;
-        public ValueSet(IMetaNode node, ArtifactType type)
+        private readonly IValueStorageFactory factory;
+        public ValueSet(IMetaNode node, ArtifactType type, IValueStorageFactory factory)
         {
+            this.factory = factory;
             this.node = node;
             this.type = type;
         }
@@ -29,7 +31,7 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
             {
                 artifact2Index[artifact] = index2Artifact.Count;
                 index2Artifact.Add(artifact);
-                values.Add(new ValueCell());
+                values.Add(factory.CreateValueCell());
             }
             var index = artifact2Index[artifact];
             return values[index];
@@ -44,7 +46,7 @@ namespace ClassLibrary1.N00_Config.Facade.Impl
             {
                 artifact2Index[artifact] = index2Artifact.Count;
                 index2Artifact.Add(artifact);
-                values.Add(cell = new ValueCell());
+                values.Add(cell = factory.CreateValueCell());
             }
             else
             {

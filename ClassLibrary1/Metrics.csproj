@@ -51,6 +51,7 @@
     <Compile Include="Instance\IValueStorage.cs" />
     <Compile Include="Facade\MetricModelExtensions.cs" />
     <Compile Include="Instance\IValueStorageFactory.cs" />
+    <Compile Include="Instance\TagRelevanceFlags.cs" />
     <Compile Include="Instance\ValueCellState.cs" />
     <Compile Include="Meta\IMetaGraphFactory.cs" />
     <Compile Include="Facade\Impl\MetaBuilder.cs" />

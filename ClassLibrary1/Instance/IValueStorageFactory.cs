@@ -8,5 +8,6 @@ namespace ClassLibrary1.N00_Config.Facade
     {
         IValueStorage CreateStorage();
         IValueSet CreateValueSet(IMetaNode node, ArtifactType type);
+        IValueCell CreateValueCell();
     }
 }

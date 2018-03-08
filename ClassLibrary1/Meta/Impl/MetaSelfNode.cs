@@ -147,11 +147,6 @@ namespace ClassLibrary1.N00_Config.Meta.Impl
             return array;
         }
 
-        public object ComputeDelta(IGraph graph, DeltaMethod method, IArtifact artifact, ITypedKeyDictionary oldValues)
-        {
-            return null;
-        }
-
         public override string ToString()
         {
             return "{Self} "+Key.ToString();
