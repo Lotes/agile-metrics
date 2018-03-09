@@ -10,6 +10,8 @@ using ClassLibrary1.N00_Config.Meta.Impl;
 using ClassLibrary1.E03_Tags;
 using Environment.Impl;
 using Common.DataStructures;
+using Metrics.Instance.Impl;
+using Metrics.Instance;
 
 namespace ClassLibrary1.T00_Usage
 {
@@ -112,7 +114,7 @@ namespace ClassLibrary1.T00_Usage
 
             var tagIsHeader = new Tag("HEADER");
             catalog.Tag(new[] { mainH }, tagIsHeader, Metrics.E01_Artifacts.SetterMode.Set);
-            var noHeaders = new TagExpression(a => !a.Tags.Contains(tagIsHeader));
+            var noHeaders = new TagExpression(a => !a.Contains(tagIsHeader));
             var commentRatioSubscriptions = metricModel.SubscribeOn(noHeaders, commentRatio, new[] { root, mainCPP, mainH });
             var sumLOCSubscriptions = metricModel.SubscribeOn(noHeaders, sumFileLOC, new[] { root, mainCPP, mainH });
 
@@ -186,6 +188,55 @@ namespace ClassLibrary1.T00_Usage
                     max--;
                 }
             }
+        }
+
+        [TestMethod]
+        public void TagExpressionTree()
+        {
+            // Artifact tree:
+            //         Root: Directory
+            //          /           \
+            //    mainH:File    mainCPP:File
+            var catalog = new ArtifactCatalog();
+            var root = catalog.Add("Root", "DIRECTORY");
+            var mainH = catalog.Add("mainH", "FILE", root);
+            var mainCPP = catalog.Add("mainCPP", "FILE", root);
+
+            var tagIsHeader = new Tag("HEADER");
+            var tagExpressionNoHeaders = new TagExpression(a => !a.Contains(tagIsHeader));
+
+            var tagExpressionTree = new TagExpressionTree(tagExpressionNoHeaders);
+            tagExpressionTree.Attach(catalog);
+
+            Assert.AreEqual(TagRelevanceFlags.All, tagExpressionTree[root]);
+            Assert.AreEqual(TagRelevanceFlags.SelfTagged, tagExpressionTree[mainCPP]);
+            Assert.AreEqual(TagRelevanceFlags.SelfTagged, tagExpressionTree[mainH]);
+
+            catalog.Tag(new[] { mainH }, tagIsHeader, Metrics.E01_Artifacts.SetterMode.Set);
+
+            Assert.AreEqual(TagRelevanceFlags.All, tagExpressionTree[root]);
+            Assert.AreEqual(TagRelevanceFlags.SelfTagged, tagExpressionTree[mainCPP]);
+            Assert.AreEqual(TagRelevanceFlags.None, tagExpressionTree[mainH]);
+
+            catalog.Tag(new[] { mainCPP }, tagIsHeader, Metrics.E01_Artifacts.SetterMode.Set);
+
+            Assert.AreEqual(TagRelevanceFlags.None, tagExpressionTree[mainCPP]);
+            Assert.AreEqual(TagRelevanceFlags.None, tagExpressionTree[mainH]);
+            Assert.AreEqual(TagRelevanceFlags.None, tagExpressionTree[root]);
+
+            var importantCPP = catalog.Add("importantCPP", "FILE", root);
+
+            Assert.AreEqual(TagRelevanceFlags.None, tagExpressionTree[mainCPP]);
+            Assert.AreEqual(TagRelevanceFlags.None, tagExpressionTree[mainH]);
+            Assert.AreEqual(TagRelevanceFlags.SelfTagged, tagExpressionTree[importantCPP]);
+            Assert.AreEqual(TagRelevanceFlags.ChildrenTagged, tagExpressionTree[root]);
+
+            catalog.Move(new[] { importantCPP }, mainCPP);
+
+            Assert.AreEqual(TagRelevanceFlags.None, tagExpressionTree[mainH]);
+            Assert.AreEqual(TagRelevanceFlags.ChildrenTagged, tagExpressionTree[root]);
+            Assert.AreEqual(TagRelevanceFlags.ChildrenTagged, tagExpressionTree[mainCPP]);
+            Assert.AreEqual(TagRelevanceFlags.SelfTagged, tagExpressionTree[importantCPP]);
         }
     }
 }

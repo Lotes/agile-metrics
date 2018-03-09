@@ -12,7 +12,7 @@ namespace ClassLibrary1.E01_Artifacts.Impl
         {
             Name = name;
             ArtifactType = artifactType;
-            Tags = new ObservableCollection<ITag>();
+            Tags = MutableTags = new List<ITag>();
             parent?.Children.Add(this);
             Parent = parent;
         }
@@ -21,6 +21,7 @@ namespace ClassLibrary1.E01_Artifacts.Impl
         public ArtifactType ArtifactType { get; }
         public ICollection<IArtifact> Children { get { return children; } }
         public IReadOnlyList<ITag> Tags { get; }
+        public List<ITag> MutableTags { get; }
         public IArtifact Parent { get; set; }
         public override string ToString()
         {

@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Facade\IMetricModel.cs" />
     <Compile Include="Instance\GraphInvalidator.cs" />
+    <Compile Include="Instance\Impl\TagExpressionTree.cs" />
     <Compile Include="Instance\Impl\ValueCell.cs" />
     <Compile Include="Instance\Impl\ValueSet.cs" />
     <Compile Include="Instance\Impl\ValueStorage.cs" />

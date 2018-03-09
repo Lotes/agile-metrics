@@ -1,4 +1,5 @@
 ﻿using ClassLibrary1.E01_Artifacts;
+using ClassLibrary1.N00_Config.Facade;
 using Metrics.E01_Artifacts;
 using System;
 using System.Collections.Generic;
@@ -13,17 +14,19 @@ namespace Metrics.Instance
         ITagExpression Expression { get; }
         void Attach(IArtifactCatalog catalog);
         void Detach();
-        ITETreeNode Root { get; }
-        IReadOnlyDictionary<IArtifact, ITETreeNode> Nodes { get; }
-        event EventHandler<IEnumerable<ITETreeNode>> TagRelevanceChanged;
+        TagRelevanceFlags this[IArtifact artifact] { get; }
+        event EventHandler<IEnumerable<TagRelevanceChangedArgs>> TagRelevanceChanged;
     }
 
-    public interface ITETreeNode
+    public class TagRelevanceChangedArgs: EventArgs
     {
-        ITagExpressionTree Tree { get; }
-        ITETreeNode Parent { get; }
-        IEnumerable<ITETreeNode> Children { get; }
-        IArtifact Artifact { get; }
-        TagRelevanceFlags TagRelevance { get; }
+        public TagRelevanceChangedArgs(IArtifact artifact, TagRelevanceFlags old, TagRelevanceFlags @new)
+        {
+            Artifact = artifact;
+            TagRelevance = new OldNewPair<TagRelevanceFlags>(old, @new);
+        }
+
+        public IArtifact Artifact { get; private set; }
+        public OldNewPair<TagRelevanceFlags> TagRelevance { get; private set; }
     }
 }
